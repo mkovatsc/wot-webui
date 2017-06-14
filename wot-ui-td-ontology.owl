@@ -3,7 +3,7 @@
 
 <!DOCTYPE rdf:RDF [
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
-    <!ENTITY wotui "http://www.kovtasch.net/wot-webui/wot-ui-td-ontology.owl#" >
+    <!ENTITY wotui "http://www.kovatsch.net/wot-webui/wot-ui-td-ontology.owl#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
@@ -11,12 +11,12 @@
 
 <rdf:RDF xmlns="http://www.w3c.org/wot/td#"
      xml:base="http://www.w3c.org/wot/td"
-     xmlns:wotui="http://www.kovtasch.net/wot-webui/wot-ui-td-ontology.owl#"
+     xmlns:wotui="http://www.kovatsch.net/wot-webui/wot-ui-td-ontology.owl#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
-    <owl:Ontology rdf:about="http://www.kovtasch.net/wot-webui/wot-ui-td-ontology.owl">
+    <owl:Ontology rdf:about="http://www.kovatsch.net/wot-webui/wot-ui-td-ontology.owl">
         <owl:versionInfo rdf:datatype="&xsd;decimal">2.2</owl:versionInfo>
         <created rdf:datatype="&xsd;date">2017-06-14</created>
         <wotui:modified rdf:datatype="&xsd;date">2017-06-14</wot2:modified>
