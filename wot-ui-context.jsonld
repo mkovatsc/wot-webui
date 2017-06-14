@@ -1,3 +1,15 @@
 {
-  "@context": { }
+ "@context": ["http://w3c.github.io/wot/w3c-wot-td-context.jsonld",
+ {"webUI":" http://www.kovatsch.net/wot-webui/wot-ui-td-ontology.owl"}],
+ "@type": "webUI:Thermostat",
+ "name": "MyThermostat",
+ "encodings": ["JSON"],
+ "properties": [
+    {
+    "@type": "webUI:TemperatureMeasurement",
+    "name": "temperature",
+    "valueType": {"type": "number"},
+    "writable": true
+    }
+ ]
 }
