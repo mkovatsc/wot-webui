@@ -1,0 +1,15 @@
+{
+  "widgets": {
+    "temperature": {
+      "url1": "canvas-thermometer",
+      "url2": "rgraph-thermometer"
+    },
+
+    "intensity": {
+      "url1": "ui-knob",
+      "url2": "gauge"
+    }
+
+  }
+
+}
