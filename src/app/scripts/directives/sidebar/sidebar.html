@@ -1,0 +1,54 @@
+<div class="navbar-default sidebar" role="navigation">
+  <div class="sidebar-nav navbar-collapse">
+    <ul class="nav in" id="side-menu">
+
+      <li ng-show="name != undefined" ui-sref-active="active">
+
+        <a href="" ng-click="openThing(name)"><i class="fa fa-database fa-lg fa-fw"></i> {{name}}<span></span></a>
+
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="addTD"><i class="fa fa-plus fa-lg fa-fw"></i> Add TD</a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="viewWidgets"><i class="fa fa-plus fa-lg fa-fw"></i> View Current Available Widgets</a>
+      </li>
+      <!-- <li ui-sref-active="active">
+                <a ui-sref="dashboard.table"><i class="fa fa-table fa-fw"></i> Tables</a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="dashboard.form"><i class="fa fa-edit fa-fw"></i> Forms</a>
+            </li>-->
+      <!-- icons --><!--
+            <li ng-class="{active: collapseVar==1}">{{dropDown}}
+                <a href="" ng-click="check(1)"><i class="fa fa-wrench fa-fw"></i> UI Elements<span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" collapse="collapseVar!=1">
+                    <li ui-sref-active="active">
+                        <a ui-sref="dashboard.panels-wells">Panels and Wells</a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="dashboard.buttons">Buttons</a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="dashboard.notifications">Notifications</a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="dashboard.typography">Typography</a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="dashboard.icons"> Icons</a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="dashboard.grid">Grid</a>
+                    </li>
+                </ul>
+                /.nav-second-level
+            </li> -->
+
+    </ul>
+  </div>
+</div>
+
+
+
