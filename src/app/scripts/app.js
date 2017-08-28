@@ -1,5 +1,5 @@
 /* global process */
-import $ from "jquery"
+import $ from 'jquery';
 
 window.$ = $;
 window.jQuery = $;
@@ -15,6 +15,9 @@ import ngBootstrap from 'angular-ui-bootstrap';
 import ngTranslate from 'angular-translate';
 import ngTranslateLoaderStaticFiles from 'angular-translate-loader-static-files';
 import uiRouter from 'angular-ui-router';
+import brace from 'brace';
+import 'brace/mode/json';
+import 'brace/theme/idle_fingers';
 
 import '../styles/main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -26,6 +29,7 @@ import config from 'app.config';
 import appConfig from './app.config';
 import appRoute from './app.route';
 import appComponent from './app.component';
+import Base from './controllers/base';
 import Main from './controllers/main';
 import AddTd from './controllers/addtd';
 import AddTdFile from './controllers/addtdfile';
@@ -33,11 +37,15 @@ import AddTdRepo from './controllers/addtdrepo';
 import AddTdUri from './controllers/addtduri';
 import RenderTd from './controllers/rendertd';
 import ViewWidgets from './controllers/viewwidgets';
+import RenderTdUser from './controllers/rendertduser';
+import RenderTdTechnician from './controllers/rendertdtechnician';
+import RenderTdManager from './controllers/rendertdmanager';
+import Editor from './controllers/editor';
 import header from './directives/header/header';
-import sidebar from './directives/sidebar/sidebar';
-//import typedjson from '../../../other_components/node-wot/packages/node-wot-td-tools/node_modules/typedjson-npm/js/typed-json.js';
-//import parseTDObject from '../../../other_components/node-wot/packages/node-wot-td-tools/dist/td-parser';
-//import parseTDObject from '../../../other_components/node-wot/packages/node-wot-td-tools/src/td-parser.ts';
+// import sidebar from './directives/sidebar/sidebar';
+// import typedjson from '../../../other_components/node-wot/packages/node-wot-td-tools/node_modules/typedjson-npm/js/typed-json.js';
+// import parseTDObject from '../../../other_components/node-wot/packages/node-wot-td-tools/dist/td-parser';
+// import parseTDObject from '../../../other_components/node-wot/packages/node-wot-td-tools/src/td-parser.ts';
 
 export default angular.module('wotwebui', [
   ngAnimate,
@@ -63,6 +71,10 @@ export default angular.module('wotwebui', [
 .controller('AddtduriCtrl', AddTdUri)
 .controller('RendertdCtrl', RenderTd)
 .controller('ViewwidgetsCtrl', ViewWidgets)
+.controller('BaseCtrl', Base)
+.controller('RendertduserCtrl', RenderTdUser)
+.controller('RendertdtechnicianCtrl', RenderTdTechnician)
+.controller('RendertdmanagerCtrl', RenderTdManager)
+.controller('EditorCtrl', Editor)
 .directive('header', header)
-.directive('sidebar', sidebar)
 .name;

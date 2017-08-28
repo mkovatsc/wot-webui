@@ -15,8 +15,7 @@
       'Karma'
     ]; */
 function MainCtrl ($scope) {
-   /* $(".active").removeClass("active");
-    $("li:first").addClass("active"); */
+
 }
 MainCtrl.$inject = ['$scope'];
 module.exports = MainCtrl;

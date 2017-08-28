@@ -8,16 +8,7 @@
  * Controller of the wotwebui
  */
 
-/* angular.module('wotwebui')
-  .controller('AddtdfileCtrl', function ($scope, $http, $state) {
-    /* $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ]; */
-function AddtdfileCtrl ($scope, $http, $state) {
-  /*    $(".active").removeClass("active");
-      $("li:first").next().addClass("active"); */
+function AddtdfileCtrl ($scope, $http, $state, $window) {
   let json;
   $scope.newContent = '';
   $scope.content = '';
@@ -40,7 +31,6 @@ function AddtdfileCtrl ($scope, $http, $state) {
     // $scope.content = $fileContent;
   }; */
   $scope.print = function (content) {
-
     $state.go('renderTD', { TD: content });
   };
 
@@ -73,5 +63,5 @@ function AddtdfileCtrl ($scope, $http, $state) {
   document.getElementById('files').addEventListener('change', handleFileSelect, false);
 
 }
-AddtdfileCtrl.$inject = ['$scope', '$http', '$state'];
+AddtdfileCtrl.$inject = ['$scope', '$http', '$state' , '$window'];
 module.exports = AddtdfileCtrl;

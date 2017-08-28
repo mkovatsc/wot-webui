@@ -1,0 +1,76 @@
+<div class="ui text container center aligned raised segment">
+  <br>
+  <h1 class="ui header">{{parsedTD.name}}</h1>
+</div>
+<div class="ui text container raised segment">
+  <br>
+  <h2 class="ui header">Properties</h2>
+  <div class="ui list">
+    <div style="width: 55%" class="item" ng-repeat="property in properties">
+      {{property.name}}&ensp;&emsp;&ensp;&emsp;
+
+      <div class="ui toggle checkbox" ng-show="property.outputData.type === 'boolean'">
+        <input type="checkbox" ng-model="propertyValues[property.name]" name="public">
+        <label>On/Off</label>
+      </div>
+
+      <div style="float: right" class="ui input"
+           ng-show="property.outputData.type === 'integer' || property.outputData.type === 'number'">
+        <input type="number" ng-model="propertyValues[property.name]" placeholder="Enter Value">
+      </div>
+
+      <div class="ui input" ng-show="property.outputData.type === 'string'">
+        <input type="text" ng-model="propertyValues[property.name]">
+      </div>
+      <div class="list" ng-show="property.outputData.type === 'object'">
+        <div class="item" ng-repeat="(key, val) in property.outputData.properties">
+          <div>{{key}}</div>
+          <label>{{val.type }} {{minMax(val.minimum,val.maximum)}}</label> &ensp;&emsp;&ensp;&emsp;
+          <div class="ui input">
+            <input type="{{setType(val.type)}}" min="{{val.minimum}}" max="{{val.maximum}}" name="myField"
+                   ng-model="propertyValues[key]"
+                   ng-readonly="!property.writable" required/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+</div>
+
+<br>
+<div class="ui text container raised segment">
+  <br>
+  <h2 class="ui header">Actions</h2>
+  <div class="ui list">
+    <div class="item" ng-repeat="action in actions">
+      {{action.name}} &ensp;&emsp;&ensp;&emsp;
+
+      <div class="ui toggle checkbox" ng-show="action.outputData.valueType.type === 'boolean'">
+        <input type="checkbox" ng-model="actionValues[action.name]" name="public">
+        <label>On/Off</label>
+      </div>
+
+      <div class="ui input"
+           ng-show="action.outputData.valueType.type === 'integer' || action.outputData.valueType.type === 'number'">
+        <input type="number" ng-model="actionValues[action.name]" placeholder="Enter Value">
+      </div>
+
+      <div class="ui input" ng-show="action.outputData.valueType.type === 'string'">
+        <input type="text" ng-model="actionValues[action.name]">
+      </div>
+      <div class="list" ng-show="action.outputData.valueType.type === 'object'">
+        <div class="item" ng-repeat="(key, val) in action.outputData.valueType.properties">
+          <div>{{key}}</div>
+          <label>{{val.type }} {{minMax(val.minimum,val.maximum)}}</label>&ensp;&emsp;&ensp;&emsp;
+          <div class="ui input">
+            <input type="{{setType(val.type)}}" min="{{val.minimum}}" max="{{val.maximum}}" name="myField"
+                   ng-model="actionValues[key]"
+                   ng-readonly="!action.writable" required/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+</div>

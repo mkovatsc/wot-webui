@@ -15,8 +15,7 @@
       'Karma'
     ]; */
 function AboutCtrl ($scope) {
-   /* $(".active").removeClass("active");
-$("li:first").next().next().addClass("active"); */
+  $scope.$parent.isCurrentThing = false;
 }
 AboutCtrl.$inject = ['$scope'];
 module.exports = AboutCtrl;

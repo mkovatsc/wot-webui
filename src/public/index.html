@@ -1,68 +1,86 @@
 <!doctype html>
 <html ng-app="wotwebui" lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <title>WoTWebUI</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-  <base href="/" />
+  <base href="/"/>
 </head>
-<body>
+<body ng-controller="BaseCtrl">
 <header></header>
- <!--<div class="header">
-   <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; padding-top: 10px;">
-        <div class="container">
-          <div class="navbar-header">
+<div class="navbar-default sidebar" role="navigation">
+  <div class="sidebar-nav navbar-collapse">
+    <ul class="nav in" id="side-menu">
 
-            &lt;!&ndash;<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>&ndash;&gt;
+      <li ng-repeat="thing in things" ui-sref-active="active">
 
-            <a class="navbar-default" ui-sref="home">WebUI</a>
-          </div>
-          &lt;!&ndash;<div class="collapse navbar-collapse" id="js-navbar-collapse">
+        <a href="" ng-click="openThing(thing)"><i class="fa fa-database fa-lg fa-fw"></i> {{thing}}<span></span></a>
 
-            <ul class="nav navbar-nav">
-              <li class="active"><a ui-sref="home">Home</a></li>
-              <li><a ui-sref="renderTD">Render TD</a></li>
-              <li><a ui-sref="about">View TDs</a></li>
-            </ul>
-          </div>&ndash;&gt;
-        </div>
-      </nav>
-    </div>-->
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="addTD"><i class="fa fa-plus fa-lg fa-fw"></i> Add TD</a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="viewWidgets"><i class="fa fa-th-list fa-lg fa-fw"></i> View Current Available Widgets</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<!--<div class="header">
+  <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0; padding-top: 10px;">
+       <div class="container">
+         <div class="navbar-header">
 
-   <!-- <div class="container">
-      <br><br>
-    &lt;!&ndash;<div class="ui left visible vertical menu sidebar">&ndash;&gt;
-      &lt;!&ndash;<div class="ui visible vertical left sidebar menu">
-      <a class="item" ui-sref="addTD">
-        Add TD
-      </a>
-      <a class="item" ui-sref="viewWidgets">
-        View Current Available Widgets
-      </a>
-      &lt;!&ndash;<a class="item" ui-sref="renderTD">
-        View Rendering for available TD
-      </a>&ndash;&gt;
-      </div>&ndash;&gt;
-      <div class="pusher" ui-view="content"></div>
-    </div>-->
+           &lt;!&ndash;<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+             <span class="sr-only">Toggle navigation</span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+           </button>&ndash;&gt;
 
+           <a class="navbar-default" ui-sref="home">WebUI</a>
+         </div>
+         &lt;!&ndash;<div class="collapse navbar-collapse" id="js-navbar-collapse">
+
+           <ul class="nav navbar-nav">
+             <li class="active"><a ui-sref="home">Home</a></li>
+             <li><a ui-sref="renderTD">Render TD</a></li>
+             <li><a ui-sref="about">View TDs</a></li>
+           </ul>
+         </div>&ndash;&gt;
+       </div>
+     </nav>
+   </div>-->
+
+<!-- <div class="container">
+   <br><br>
+ &lt;!&ndash;<div class="ui left visible vertical menu sidebar">&ndash;&gt;
+   &lt;!&ndash;<div class="ui visible vertical left sidebar menu">
+   <a class="item" ui-sref="addTD">
+     Add TD
+   </a>
+   <a class="item" ui-sref="viewWidgets">
+     View Current Available Widgets
+   </a>
+   &lt;!&ndash;<a class="item" ui-sref="renderTD">
+     View Rendering for available TD
+   </a>&ndash;&gt;
+   </div>&ndash;&gt;
+   <div class="pusher" ui-view="content"></div>
+ </div>-->
+
+<div class="container">
+  <div class="container">
     <div class="container">
-      <div class="container">
-        <div class="container">
-          <div class="pusher" ui-view="content"></div>
-        </div>
-      </div>
+      <div class="pusher" ui-view="content"></div>
     </div>
+  </div>
+</div>
 
-    <div class="footer">
-      <div class="container">
-      </div>
-    </div>
+<div class="footer">
+  <div class="container">
+  </div>
+</div>
 </body>
 </html>

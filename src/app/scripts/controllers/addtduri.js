@@ -7,17 +7,8 @@
  * # AddtduriCtrl
  * Controller of the wotwebui
  */
-/* angular.module('wotwebui')
-  .controller('AddtduriCtrl', function ($scope, $http, $state) {
-    /* $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ]; */
-function AddtduriCtrl ($scope, $http, $state) {
-  /*  $(".active").removeClass("active");
-    $("li:first").addClass("active"); */
 
+function AddtduriCtrl ($scope, $http, $state, $window) {
   $scope.tduri = '';
   $scope.submit = function () {
     if ($scope.tduri !== undefined) {
@@ -39,5 +30,5 @@ function AddtduriCtrl ($scope, $http, $state) {
     }
   };
 }
-AddtduriCtrl.$inject = ['$scope', '$http', '$state'];
+AddtduriCtrl.$inject = ['$scope', '$http', '$state', '$window'];
 module.exports = AddtduriCtrl;

@@ -1,87 +1,13 @@
 <!--<p>This is the renderTD view.</p>-->
-<div style="width: 24%; margin-left:20%" class="navbar navbar-default" role="navigation">
+<div style="width: 30%; margin-left:20%" class="navbar navbar-default" role="navigation">
   <div class="collapse navbar-collapse" id="js-navbar-collapse">
-
     <ul class="nav navbar-nav">
-      <li class="active"><a ui-sref="home">User</a></li>
-      <li class="disabled"><a disabled="true">Manager</a></li>
-      <li class="disabled"><a disabled="true">Technician</a></li>
+      <li class="active"><a ui-sref="renderTDUser">User</a></li>
+      <li><a ui-sref="renderTDManager">Manager</a></li>
+      <li><a ui-sref="renderTDTechnician">Technician</a></li>
     </ul>
   </div>
 </div>
-<div class="ui text container center aligned raised segment">
-  <br>
-  <h1 class="ui header">{{parsedTD.name}}</h1>
-</div>
-<div class="ui text container raised segment">
-  <br>
-  <h2 class="ui header">Properties</h2>
-  <div class="ui list">
-    <div class="item" ng-repeat="property in properties">
-      {{property.name}}&ensp;&emsp;&ensp;&emsp;
-
-      <div class="ui toggle checkbox" ng-show="property.outputData.valueType.type === 'boolean'">
-        <input type="checkbox" ng-model="propertyValues[property.name]" name="public">
-        <label>On/Off</label>
-      </div>
-
-      <div class="ui input"
-           ng-show="property.outputData.valueType.type === 'integer' || property.outputData.valueType.type === 'number'">
-        <input type="number" ng-model="propertyValues[property.name]" placeholder="Enter Value">
-      </div>
-
-      <div class="ui input" ng-show="property.outputData.valueType.type === 'string'">
-        <input type="text" ng-model="propertyValues[property.name]">
-      </div>
-      <div class="list" ng-show="property.outputData.valueType.type === 'object'">
-        <div class="item" ng-repeat="(key, val) in property.outputData.valueType.properties">
-          <div>{{key}}</div>
-          <label>{{val.type }} {{minMax(val.minimum,val.maximum)}}</label> &ensp;&emsp;&ensp;&emsp;
-          <div class="ui input">
-            <input type="{{setType(val.type)}}" min="{{val.minimum}}" max="{{val.maximum}}" name="myField"
-                   ng-model="propertyValues[key]"
-                   ng-readonly="!property.writable" required/>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <br>
-</div>
-
-<br>
-<div class="ui text container raised segment">
-  <br>
-  <h2 class="ui header">Actions</h2>
-  <div class="ui list">
-    <div class="item" ng-repeat="action in actions">
-      {{action.name}} &ensp;&emsp;&ensp;&emsp;
-
-      <div class="ui toggle checkbox" ng-show="action.outputData.valueType.type === 'boolean'">
-        <input type="checkbox" ng-model="actionValues[action.name]" name="public">
-        <label>On/Off</label>
-      </div>
-
-      <div class="ui input"
-           ng-show="action.outputData.valueType.type === 'integer' || action.outputData.valueType.type === 'number'">
-        <input type="number" ng-model="actionValues[action.name]" placeholder="Enter Value">
-      </div>
-
-      <div class="ui input" ng-show="action.outputData.valueType.type === 'string'">
-        <input type="text" ng-model="actionValues[action.name]">
-      </div>
-      <div class="list" ng-show="action.outputData.valueType.type === 'object'">
-        <div class="item" ng-repeat="(key, val) in action.outputData.valueType.properties">
-          <div>{{key}}</div>
-          <label>{{val.type }} {{minMax(val.minimum,val.maximum)}}</label>&ensp;&emsp;&ensp;&emsp;
-          <div class="ui input">
-            <input type="{{setType(val.type)}}" min="{{val.minimum}}" max="{{val.maximum}}" name="myField"
-                   ng-model="actionValues[key]"
-                   ng-readonly="!action.writable" required/>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <br>
+<div class="container">
+  <div ui-view="rendertd"></div>
 </div>

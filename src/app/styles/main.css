@@ -191,3 +191,35 @@ div.container > div.container > div.container > div.pusher{
 .panel-yellow a:hover {
   color: #df8a13;
 }
+
+#wrapper {
+  position: absolute;
+  top: 10%;
+  bottom: 0;
+  left: 30%;
+  right: 0;
+}
+
+div.editor {
+  position: absolute;
+  width: 80%;
+  height: 80%;
+}
+
+a.reader {
+  position: absolute;
+  right:    25%;
+  bottom:   5%;
+}
+
+a.reader:last-child{
+  position: absolute;
+  right:    15%;
+  bottom:   5%;
+}
+
+a.ui.right.floated.header {
+  width: 85%;
+  position: fixed;
+  text-align: right;
+}

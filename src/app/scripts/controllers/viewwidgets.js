@@ -7,15 +7,8 @@
  * # ViewwidgetsCtrl
  * Controller of the wotwebui
  */
-
-/* angular.module('wotwebui')
-  .controller('ViewwidgetsCtrl', function ($scope,$http) {
-    /*$scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ]; */
 function ViewwidgetsCtrl ($scope, $http) {
+  $scope.$parent.isCurrentThing = false;
   let jqueryKnob = require('../../../../node_modules/jquery-knob/dist/jquery.knob.min.js');
   let canvasGauge = require('../../../../node_modules/canvas-gauges/gauge.min.js');
   $scope.value = 4;

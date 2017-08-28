@@ -9,12 +9,8 @@
  */
 /* angular.module('wotwebui')
   .controller('AddtdCtrl', function () { */
-function AddtdCtrl ($scope) {
-  $scope.awesomeThings = [
-    'HTML5 Boilerplate',
-    'AngularJS',
-    'Karma'
-  ];
+function AddtdCtrl ($scope, $modal) {
+  $scope.$parent.isCurrentThing = false;
 }
-AddtdCtrl.$inject = ['$scope'];
+AddtdCtrl.$inject = ['$scope', '$uibModal'];
 module.exports = AddtdCtrl;
