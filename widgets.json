@@ -18,12 +18,6 @@
 			"widget-name": "ui-knob"
 		},
 		{
-			"widget-id": "2",
-			"types": ["pressure", "light"],
-			"writable": true,
-			"widget-name": "ui-knob"
-		},
-		{
 			"widget-id": "3",
 			"types": ["pressure", "light"],
 			"writable": true,
