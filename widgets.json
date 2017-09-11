@@ -1,15 +1,33 @@
 {
-  "widgets": {
-    "temperature": {
-      "url1": "canvas-thermometer",
-      "url2": "rgraph-thermometer"
-    },
-
-    "intensity": {
-      "url1": "ui-knob",
-      "url2": "gauge"
-    }
-
-  }
-
+	"widgets": [{
+			"widget-id": "0",
+			"types": ["temperature"],
+			"writable": true,
+			"widget-name": "canvas-thermometer"
+		},
+		{
+			"widget-id": "1",
+			"types": ["temperature"],
+			"writable": true,
+			"widget-name": "rgraph-thermometer"
+		},
+		{
+			"widget-id": "2",
+			"types": ["pressure", "light"],
+			"writable": true,
+			"widget-name": "ui-knob"
+		},
+		{
+			"widget-id": "2",
+			"types": ["pressure", "light"],
+			"writable": true,
+			"widget-name": "ui-knob"
+		},
+		{
+			"widget-id": "3",
+			"types": ["pressure", "light"],
+			"writable": true,
+			"widget-name": "gauge"
+		}
+	]
 }
