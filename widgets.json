@@ -1,27 +1,27 @@
 {
 	"widgets": [{
-			"widget-id": "0",
+			"widget_id": "0",
 			"types": ["temperature"],
 			"writable": true,
-			"widget-name": "canvas-thermometer"
+			"widget_name": "canvas-thermometer"
 		},
 		{
-			"widget-id": "1",
+			"widget_id": "1",
 			"types": ["temperature"],
 			"writable": true,
-			"widget-name": "rgraph-thermometer"
+			"widget_name": "rgraph-thermometer"
 		},
 		{
-			"widget-id": "2",
+			"widget_id": "2",
 			"types": ["pressure", "light"],
 			"writable": true,
-			"widget-name": "ui-knob"
+			"widget_name": "ui-knob"
 		},
 		{
-			"widget-id": "3",
+			"widget_id": "3",
 			"types": ["pressure", "light"],
 			"writable": true,
-			"widget-name": "gauge"
+			"widget_name": "gauge"
 		}
 	]
 }
