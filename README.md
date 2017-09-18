@@ -64,7 +64,7 @@ Documentation is launched by adding `--docs` argument to webpack. Which is alrea
 
 Static documentation is written in markdown format under `docs` folder.
 
-### Getting the parser ready (if parser is updated)
+## Getting the parser ready (if parser is updated)
 
 ```sh
 
