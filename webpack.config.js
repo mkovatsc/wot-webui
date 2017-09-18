@@ -30,8 +30,8 @@ let common = {
 
   entry: {
     app: path.join(__dirname, 'src/app/scripts/app.js'),
-    rgraph: glob.sync(path.join(__dirname, 'other_components/rgraph/libraries/*.js')),
-    parser: path.join(__dirname, 'parser/node-wot/packages/node-wot-td-tools/dist/td-parser.js')
+    rgraph: glob.sync(path.join(__dirname, 'other_components/rgraph/libraries/*.js'))
+    // parser: path.join(__dirname, 'parser/bundle-parser.js')
   },
   module: {
     //preLoaders: [],
@@ -78,7 +78,7 @@ let common = {
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
       name: 'commons',
-      chunks: ['rgraph', 'parser', 'app']
+      chunks: ['rgraph', 'app']
     }),
     new webpack.ContextReplacementPlugin(/typedjson-npm/, 'typed-json.js'),
     new HtmlWebpackPlugin({
@@ -167,7 +167,7 @@ if (TARGET !== undefined && TARGET.startsWith('build')) {
 
     plugins: [
       new webpack.NoErrorsPlugin(),
-      //new webpack.optimize.DedupePlugin(),
+      // new webpack.optimize.DedupePlugin(),
       new webpack.optimize.ModuleConcatenationPlugin(),
       new webpack.optimize.UglifyJsPlugin(),
       new CopyWebpackPlugin([{
@@ -176,10 +176,10 @@ if (TARGET !== undefined && TARGET.startsWith('build')) {
       new ExtractTextPlugin('[name].[hash].css'),
 
       new DocsGeneratorPlugin({
-        enable: docEnable,
+        enable       : docEnable,
         staticContent: './docs',
-        sources: {
-          include: 'src/app/**/**/*.js',
+        sources      : {
+          include : 'src/app/**/**/*.js',
           basePath: 'src/app'
         },
         output: 'dist-docs'

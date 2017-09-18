@@ -64,3 +64,13 @@ Documentation is launched by adding `--docs` argument to webpack. Which is alrea
 
 Static documentation is written in markdown format under `docs` folder.
 
+### Getting the parser ready (if parser is updated)
+
+1. Install browserify in the system using : npm install -g browserify 
+
+2. Move to the folder where you have installed the node-wot module, traverse to the folder packages -> node-wot-td-tools -> dist
+
+3. Once in this folder, use the following script:
+browserify td-parser.js --standalone parser > bundle-parser.js
+
+4. Copy this file in the parser folder of the project

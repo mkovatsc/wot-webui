@@ -7,9 +7,13 @@
  * # ViewwidgetsCtrl
  * Controller of the wotwebui
  */
-function ViewwidgetsCtrl ($scope, $http) {
+function ViewwidgetsCtrl ($scope, $http, widgetGenerator) {
   $scope.$parent.isCurrentThing = false;
-  let jqueryKnob = require('../../../../node_modules/jquery-knob/dist/jquery.knob.min.js');
+  widgetGenerator.generateKnob('dial', 4, 0, 10);
+  widgetGenerator.generateCanvasThermometer('gauge-id', 36.6, -30, 40);
+  widgetGenerator.generateRGraphThermometer('cvsThermometer', 23, 0, 40);
+  widgetGenerator.generateRGraphGauge('cvs', 4, 0, 10);
+  /* let jqueryKnob = require('../../../../node_modules/jquery-knob/dist/jquery.knob.min.js');
   let canvasGauge = require('../../../../node_modules/canvas-gauges/gauge.min.js');
   $scope.value = 4;
   $scope.options = {
@@ -33,8 +37,8 @@ function ViewwidgetsCtrl ($scope, $http) {
     min   : 0,
     max   : 10,
     change: function (v) {
-      /* gauge.value = v;
-      gauge.grow(); */
+      /!* gauge.value = v;
+      gauge.grow(); *!/
     }
   });
 
@@ -70,13 +74,13 @@ function ViewwidgetsCtrl ($scope, $http) {
       let temp = (e.offsetY - 85) / (345 / (temperatureGauge.options.maxValue - temperatureGauge.options.minValue));
       temperatureGauge.value = temperatureGauge.options.maxValue - temp;
     }
-    /* $scope.newValue = gauge.getValue(e);
+    /!* $scope.newValue = gauge.getValue(e);
 
     if (typeof $scope.newValue === 'number') {
       gauge.value = $scope.newValue;
       gauge.grow();
       $scope.value = $scope.newValue;
-    } */
+    } *!/
   }
 
   let canvasTemp = document.getElementById('gauge-id');  // get canvas element
@@ -114,7 +118,7 @@ function ViewwidgetsCtrl ($scope, $http) {
     options: {
       adjustable: true
     }
-  }).grow();
+  }).grow(); */
 }
-ViewwidgetsCtrl.$inject = ['$scope', '$http'];
+ViewwidgetsCtrl.$inject = ['$scope', '$http', 'widgetGenerator'];
 module.exports = ViewwidgetsCtrl;
