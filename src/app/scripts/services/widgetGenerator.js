@@ -36,8 +36,8 @@ function widgetGenerator () {
     $('.' + div).knob({
       width : knobWidth,
       height: knobHeight,
-      min   : 0,
-      max   : 10,
+      min   : min,
+      max   : max,
       change: function (v) {
         /* gauge.value = v;
         gauge.grow(); */

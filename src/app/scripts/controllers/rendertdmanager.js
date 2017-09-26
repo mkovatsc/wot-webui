@@ -21,6 +21,7 @@
 function RendertdmanagerCtrl($scope, $http, $state, $stateParams, $window) {
   $('.active').removeClass('active');
   $('a:contains(Manager)').parent('li').addClass('active');
+  $('#errorDivMan').hide();
   // $('li:first').next().addClass('active');
   // let parser = require('../../../../parser/node-wot/packages/node-wot-td-tools/dist/td-parser');
   let parser = require('../../../../parser/bundle-parser');
@@ -57,13 +58,25 @@ function RendertdmanagerCtrl($scope, $http, $state, $stateParams, $window) {
     }).then(function (response) {
       $scope.content = response.data;
       for (let i = 0; i < $scope.parsedTD.interaction.length; i++) {
-        /* for(var j=0;j<Object.keys($scope.content.widgets).length;j++){ */
-        if ($scope.parsedTD.interaction[i].semanticTypes[0] === 'Property') {
-          $scope.properties.push($scope.parsedTD.interaction[i]);
+        if ($scope.parsedTD.interaction[i].semanticTypes[0] === 'Property') {let value = 0;
+          $http({
+            method: 'get',
+            url: $scope.parsedTD.interaction[i].link[0].href
+          }).then(function (response2) {
+            value = response2.data;
+            let index = $scope.parsedTD.interaction[i].name;
+            $scope.properties.push($scope.parsedTD.interaction[i]);
+            $scope.propertyValues[index] = value;
+          }, function (error) {
+            $('#errorDivMan').show();
+            let index = $scope.parsedTD.interaction[i].name;
+            $scope.properties.push($scope.parsedTD.interaction[i]);
+            $scope.propertyValues[index] = value;
+            console.log(error, 'cannot get data.');
+          });
         } else if ($scope.parsedTD.interaction[i].semanticTypes[0] === 'Action') {
           $scope.actions.push($scope.parsedTD.interaction[i]);
         }
-        /* } */
       }
     }, function (error) {
       console.log(error, 'cannot get data.');

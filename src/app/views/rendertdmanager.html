@@ -1,3 +1,9 @@
+<div id="errorDivMan" class="ui text container">
+  <div class="ui red label">
+    <i class="warning sign icon"></i>
+    Thing not responding
+  </div>
+</div>
 <div class="ui text container center aligned raised segment">
   <br>
   <h1 class="ui header">{{parsedTD.name}}</h1>
@@ -6,7 +12,7 @@
   <br>
   <h2 class="ui header">Properties</h2>
   <div class="ui list">
-    <div class="item" ng-repeat="property in properties">
+    <div style="width: 55%" class="item" ng-repeat="property in properties">
       {{property.name}}&ensp;&emsp;&ensp;&emsp;
 
       <div class="ui toggle checkbox" ng-show="property.outputData.type === 'boolean'">
@@ -14,7 +20,7 @@
         <label>On/Off</label>
       </div>
 
-      <div class="ui input"
+      <div style="float: right" class="ui input"
            ng-show="property.outputData.type === 'integer' || property.outputData.type === 'number'">
         <input type="number" ng-model="propertyValues[property.name]" placeholder="Enter Value">
       </div>
