@@ -6,6 +6,20 @@
 	margin-left: 5% !important;
 }
 
+div#errorDivMan{
+    margin-left: 5%;
+    width: 61.5%;
+}
+
+div#errorDivTech{
+  margin-left: 5%;
+  width: 61.5%;
+}
+
+div#errorDivUser{
+  margin-left: 5%;
+  width: 61.5%;
+}
 
 div.header > div.navbar.navbar-default{
 margin-bottom: 0px;
@@ -218,8 +232,35 @@ a.reader:last-child{
   bottom:   5%;
 }
 
+a.polyerror {
+  position: absolute;
+  right:    18%;
+  bottom:   10%;
+}
+
+a.polyerror:last-child{
+  position: absolute !important;
+  right:    5% !important;
+  bottom:   10% !important;
+}
+
+a.polyerror:nth-last-child(2) {
+  position: absolute;
+  right:    5%;
+  bottom:   10%;
+}
+
+
 a.ui.right.floated.header {
   width: 85%;
   position: fixed;
   text-align: right;
+}
+
+.editted {
+  border:2px solid red !important;
+}
+
+.polling {
+  border:2px solid green !important;
 }

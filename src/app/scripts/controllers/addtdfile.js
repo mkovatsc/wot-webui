@@ -8,7 +8,7 @@
  * Controller of the wotwebui
  */
 
-function AddtdfileCtrl ($scope, $http, $state, $window) {
+function AddtdfileCtrl ($scope, $http, $state, $window, $log) {
   let json;
   $scope.newContent = '';
   $scope.content = '';
@@ -22,7 +22,7 @@ function AddtdfileCtrl ($scope, $http, $state, $window) {
       var reader = new FileReader();
       reader.onload = function(e) {
         // handle onload
-        console.log(e);
+        $log.log(e);
       };
       reader.readAsDataURL(td);
     });
@@ -51,7 +51,7 @@ function AddtdfileCtrl ($scope, $http, $state, $window) {
             $scope.$digest();
             $scope.print($scope.content);
           } catch (ex) {
-            console.log('exception when trying to parse json = ' + ex);
+            $log.log('exception when trying to parse json = ' + ex);
           }
         };
       })(f);
@@ -63,5 +63,5 @@ function AddtdfileCtrl ($scope, $http, $state, $window) {
   document.getElementById('files').addEventListener('change', handleFileSelect, false);
 
 }
-AddtdfileCtrl.$inject = ['$scope', '$http', '$state' , '$window'];
+AddtdfileCtrl.$inject = ['$scope', '$http', '$state', '$window', '$log'];
 module.exports = AddtdfileCtrl;

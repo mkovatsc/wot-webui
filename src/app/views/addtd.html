@@ -1,3 +1,15 @@
+<div style="width: 80%; margin-left:5%; margin-top: 2%;" class="ui negative message" ng-show="!coapAvailable">
+  <i ng-click="coapAvailable = !coapAvailable" class="close icon"></i>
+  <!--<div class="header">-->
+  <!--CoAP Polyfill proxy is not running. CoAP calls would not work.-->
+  <!--</div>-->
+  CoAP Polyfill proxy is not running.
+  <div class="">
+    <a class="ui primary button polyerror" href="https://hudson.eclipse.org/californium/job/tools/lastSuccessfulBuild/artifact/cf-polyfill.jar" target="_blank">Download Cf-Polyfill</a>
+    <a class="ui button polyerror" ng-show="!loading" ng-click="checkPolyfill()">Retry</a>
+	<a class="ui button loading polyerror" ng-show="loading">Retry</a>
+  </div>
+</div>
 <div style="width: 35%; margin-left:20%; margin-top: 10%;">
   <!--<div class="collapse navbar-collapse" id="js-navbar-collapse">-->
 

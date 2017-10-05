@@ -100,6 +100,7 @@ let common = {
   ],
 
   devServer: {
+    port: 8088,
     contentBase: './src/public',
     stats: 'minimal'
   },

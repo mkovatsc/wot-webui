@@ -7,13 +7,13 @@
  * # RendertdUserCtrl
  * Controller of the wotwebui
  */
-function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGenerator, $compile) {
+function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGenerator, $compile, $interval, $log) {
   $('.active').removeClass('active');
   $('a:contains(User)').parent('li').addClass('active');
   $('#errorDivUser').hide();
   // let parser = require('../../../../parser/node-wot/packages/node-wot-td-tools/dist/td-parser');
   let parser = require('../../../../parser/bundle-parser');
-  // console.log(typeof($stateParams.TD));
+  // $log.log(typeof($stateParams.TD));
   $scope.TD = $stateParams.TD;
   /* $('.active').removeClass('active');
   $('li:first').next().addClass('active'); */
@@ -75,7 +75,7 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
           }
         }
       }
-      console.log($scope.properties);
+      $log.log($scope.properties);
       let classID = '';
       let canvas_html = '';
       let groupNumber = '';
@@ -95,6 +95,7 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
           }).then(function (response2) {
             $scope.properties[m].value = response2.data;
             classID = 'classID' + m;
+            $scope.properties[m].divClass = classID;
             if ($scope.properties[m].name === 'ui-knob') {
               canvas_html = '<div class="ui text container raised segment"><h3>' + $scope.properties[m].propertyName + '</h3><input type="text" class="' + classID + '"> </div>';
             } else if ($scope.properties[m].name === 'rgraph-thermometer') {
@@ -123,42 +124,74 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
             min = $scope.properties[m].value - 10;
             max = $scope.properties[m].value + 10
             if ($scope.properties[m].name === 'ui-knob') {
-              widgetGenerator.generateKnob(classID, $scope.properties[m].value, min, max);
+              widgetGenerator.generateKnob($scope.properties[m].url, classID, $scope.properties[m].value, min, max);
             } else if ($scope.properties[m].name === 'rgraph-thermometer') {
-              widgetGenerator.generateRGraphThermometer(classID, $scope.properties[m].value, $scope.properties[m].value - 10, $scope.properties[m].value + 10);
+              widgetGenerator.generateRGraphThermometer($scope.properties[m].url, classID, $scope.properties[m].value, $scope.properties[m].value - 10, $scope.properties[m].value + 10);
             } else if ($scope.properties[m].name === 'canvas-thermometer') {
-              widgetGenerator.generateCanvasThermometer(classID, $scope.properties[m].value, -30, 40);
+              widgetGenerator.generateCanvasThermometer($scope.properties[m].url, classID, $scope.properties[m].value, -30, 40);
             } else if ($scope.properties[m].name === 'gauge') {
-              widgetGenerator.generateRGraphGauge(classID, $scope.properties[m].value, min, max);
+              widgetGenerator.generateRGraphGauge($scope.properties[m].url, classID, $scope.properties[m].value, min, max);
             }
           }, function (error) {
             $('#errorDivUser').show();
-            console.log(error, 'cannot get data.');
+            $log.log(error, 'cannot get data.');
           });
 
       }
 
+      $scope.reloader = $interval($scope.updateWidgets, 1000);
+
     }, function (error) {
-      console.log(error, 'cannot get data.');
+      $log.log(error, 'cannot get data.');
     });
   }
-  /* $scope.minMax = function minMax (min, max) {
-    if (min !== null && max !== null) {
-      return '(min=' + min + ',max=' + max + ')';
-    } else {
-      return null;
+  $scope.updateWidgets = function () {
+    for (let m = 0; m < $scope.properties.length; m++) {
+      // Use till you get a TD with updating values
+      if ($scope.properties[m].name === 'ui-knob') {
+        widgetGenerator.updateKnob($scope.properties[m].divClass, Math.ceil(Math.random() * 100));
+      } else if ($scope.properties[m].name === 'canvas-thermometer') {
+        widgetGenerator.updateCanvasThermometer($scope.properties[m].divClass, Math.floor(Math.random() * 30) + 20);
+      }
+      /* $http({
+        method: 'get',
+        url: $scope.properties[m].url
+      }).then(function (response2) {
+        $scope.properties[m].value = response2.data;
+        if ($scope.properties[m].name === 'ui-knob') {
+          widgetGenerator.updateKnob($scope.properties[m].divClass, $scope.properties[m].value);
+        } else if ($scope.properties[m].name === 'rgraph-thermometer') {
+          widgetGenerator.updateRGraph($scope.properties[m].divClass, $scope.properties[m].value);
+        } else if ($scope.properties[m].name === 'canvas-thermometer') {
+          widgetGenerator.updateCanvasThermometer($scope.properties[m].divClass, $scope.properties[m].value);
+        } else if ($scope.properties[m].name === 'gauge') {
+          widgetGenerator.updateRGraph($scope.properties[m].divClass, $scope.properties[m].value);
+        }
+
+      }, function (error) {
+        $('#errorDivUser').show();
+        $log.log(error, 'cannot get data.');
+      }); */
     }
   };
-  $scope.setType = function setType (type) {
-    if (type === 'number' || type === 'integer') {
-      return 'number';
-    } else if (type === 'string') {
-      return 'text';
-    } else if (type === 'boolean') {
-      return 'checkbox';
+  $('div[id^="group"]').click(function () {
+    $interval.cancel($scope.reloader);
+  });
+
+  $scope.$on('$destroy', function () {
+    if (angular.isDefined($scope.reloader)) {
+      $interval.cancel($scope.reloader);
     }
-  }; */
+  });
 }
 
-RendertdUserCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', '$window', 'widgetGenerator', '$compile'];
+RendertdUserCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', '$window', 'widgetGenerator', '$compile', '$interval', '$log'];
 module.exports = RendertdUserCtrl;
+/* To update Jquery Knob
+      $("input.dial").val('80%');
+      $("input.dial").trigger('change');
+   To update Canvas Thermometer
+      widgetGenerator.updateCanvasThermometer(div, value);
+   For RGraph
+      widgetGenerator.updateRGraph(div, value);
+   */

@@ -8,7 +8,7 @@
  * Controller of the wotwebui
  */
 
-function AddtduriCtrl ($scope, $http, $state, $window) {
+function AddtduriCtrl ($scope, $http, $state, $window, $log) {
   $scope.tduri = '';
   $scope.submit = function () {
     if ($scope.tduri !== undefined) {
@@ -19,16 +19,16 @@ function AddtduriCtrl ($scope, $http, $state, $window) {
         $scope.content = response.data;
         $state.go('renderTD', { TD: $scope.content });
           /* if(data[type].indexOf("webUI")>-1){
-            console.log("We will render $scope..");
+            $log.log("We will render $scope..");
             $scope.thingName = data.name;
           } */
       }, function (error) {
-        console.log(error, 'cannot get data.');
+        $log.log(error, 'cannot get data.');
       });
     } else {
       alert('invalid');
     }
   };
 }
-AddtduriCtrl.$inject = ['$scope', '$http', '$state', '$window'];
+AddtduriCtrl.$inject = ['$scope', '$http', '$state', '$window', '$log'];
 module.exports = AddtduriCtrl;

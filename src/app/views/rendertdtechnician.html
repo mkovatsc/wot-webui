@@ -1,44 +1,59 @@
-<div id="errorDivTech" class="ui text container">
-  <div class="ui red label">
+<!--<div id="errorDivTech" class="ui text container">-->
+  <div id="errorDivTech" class="ui error message">
     <i class="warning sign icon"></i>
     Thing not responding
   </div>
-</div>
+<!--</div>-->
 <div class="ui text container center aligned raised segment">
   <br>
   <h1 class="ui header">{{parsedTD.name}}</h1>
 </div>
 <div class="ui text container raised segment">
   <br>
-  <h2 class="ui header">Properties</h2>
+  <h2 class="ui header">Properties <i style="float: right" ng-click="updateState()" class="refresh icon"></i></h2>
   <div class="ui list">
-    <div style="width: 55%" class="item" ng-repeat="property in properties">
+    <div style="width: 80%" class="item" ng-repeat="property in properties">
       {{property.name}}&ensp;&emsp;&ensp;&emsp;
 
-      <div class="ui toggle checkbox" ng-show="property.outputData.type === 'boolean'">
-        <input type="checkbox" ng-model="propertyValues[property.name]" name="public">
+      <div id="{{property.name}}" style="float: right" class="ui polling toggle checkbox" ng-show="property.outputData.type === 'boolean'">
+        <input type="checkbox" class="polling" ng-model="property.value" name="public">
         <label>On/Off</label>
+        <button class="ui right floated green button" ng-click="readProperty(property)" ng-disabled="property.autoUpdate">Read</button>
+        <button class="ui right floated teal button" ng-click="writeProperty(property)" ng-show="property.writable">Write</button>
+        <button class="ui right floated blue button" ng-click="toggleAuto(property)">Poll</button>
       </div>
 
-      <div style="float: right" class="ui input"
+      <div id="{{property.name}}" style="float: right" class="ui input"
            ng-show="property.outputData.type === 'integer' || property.outputData.type === 'number'">
-        <input type="number" ng-model="propertyValues[property.name]" placeholder="Enter Value">
+        <input type="number" class="polling" ng-keyup="editClass($event)" ng-model="property.value" placeholder="Enter Value">
+        <button class="ui right floated green button" ng-click="readProperty(property)" ng-disabled="property.autoUpdate">Read</button>
+        <button class="ui right floated teal button" ng-click="writeProperty(property)" ng-show="property.writable">Write</button>
+        <button class="ui right floated blue button" ng-click="toggleAuto(property)">Poll</button>
       </div>
 
-      <div class="ui input" ng-show="property.outputData.type === 'string'">
-        <input type="text" ng-model="propertyValues[property.name]">
+      <div id="{{property.name}}" style="float: right" class="ui input" ng-show="property.outputData.type === 'string'">
+        <input type="text" class="polling" ng-keyup="editClass($event)" ng-model="property.value">
+        <button class="ui right floated green button" ng-click="readProperty(property)" ng-disabled="property.autoUpdate">Read</button>
+        <button class="ui right floated teal button" ng-click="writeProperty(property)" ng-show="property.writable">Write</button>
+        <button class="ui right floated blue button" ng-click="toggleAuto(property)">Poll</button>
       </div>
       <div class="list" ng-show="property.outputData.type === 'object'">
         <div class="item" ng-repeat="(key, val) in property.outputData.properties">
           <div>{{key}}</div>
           <label>{{val.type }} {{minMax(val.minimum,val.maximum)}}</label> &ensp;&emsp;&ensp;&emsp;
-          <div class="ui input">
-            <input type="{{setType(val.type)}}" min="{{val.minimum}}" max="{{val.maximum}}" name="myField"
-                   ng-model="propertyValues[key]"
+          <div id="{{property.name}}" style="float: right" class="ui input">
+            <input class="polling" type="{{setType(val.type)}}" min="{{val.minimum}}" max="{{val.maximum}}" name="myField"
+                   ng-model="property.value[key]"
                    ng-readonly="!property.writable" required/>
+            <button class="ui right floated green button" ng-click="readProperty(property)" ng-disabled="property.autoUpdate">Read</button>
+            <button class="ui right floated teal button" ng-click="writeProperty(property)" ng-show="property.writable">Write</button>
+            <button class="ui right floated blue button" ng-click="toggleAuto(property)">Poll</button>
           </div>
         </div>
       </div>
+      <!--<md-button class="md-raised" ng-click="tcc.toggleAuto(property)">auto-</md-button>
+      <md-button class="md-raised" ng-click="tcc.readProperty(property)" ng-disabled="property.autoUpdate">update</md-button>
+      <md-button class="md-raised" ng-click="tcc.writeProperty(property)" ng-show="property.writable">set</md-button>-->
     </div>
   </div>
   <br>

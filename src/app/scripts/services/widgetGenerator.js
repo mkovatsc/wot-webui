@@ -6,10 +6,10 @@
  * @description
  * # widgetGenerator
  */
-function widgetGenerator () {
+function widgetGenerator (thingClient) {
   let jqueryKnob = require('../../../../node_modules/jquery-knob/dist/jquery.knob.min.js');
   let canvasGauge = require('../../../../node_modules/canvas-gauges/gauge.min.js');
-  this.generateKnob = function (div, value, min, max, width, height) {
+  this.generateKnob = function (url, div, value, min, max, width, height) {
   // min, max, width, height, value are integers
   // div is the class of the div where this knob would be rendered
     let knobWidth = 0;
@@ -39,12 +39,18 @@ function widgetGenerator () {
       min   : min,
       max   : max,
       change: function (v) {
-        /* gauge.value = v;
-        gauge.grow(); */
+        // thingClient.restcall('PUT', url, { value: v });
+        // alert('changed');
       }
     });
   };
-  this.generateCanvasThermometer = function (div, value, min, max) {
+  this.updateKnob = function (div, value) {
+    $('input.' + div).val(value);
+    // $('input.' + div).trigger('change');
+  };
+  let gauge = {};
+  // let temperatureGauge = {};
+  this.generateCanvasThermometer = function (url, div, value, min, max) {
     // div is the id of the canvas
     // value, min and max are integers or floats
     let range = [];
@@ -53,7 +59,8 @@ function widgetGenerator () {
       range.push(i);
       i += 5;
     }
-    let temperatureGauge = new canvasGauge.LinearGauge({
+    // let temperatureGauge = {};
+    gauge[div] = new canvasGauge.LinearGauge({
       renderTo               : div, // 'gauge-id'
       colorNumbers           : 'black',
       width                  : 160,
@@ -77,36 +84,50 @@ function widgetGenerator () {
       colorValueBoxShadow    : 'true',
       colorValueBoxBackground: 'false'
     });
-    temperatureGauge.draw();
+    gauge[div].draw();
 
     function onclickcanvas (e) {
       if (e.offsetX > 45 && e.offsetX < 110 && e.offsetY > 85 && e.offsetY < 430) {
-        let temp = (e.offsetY - 85) / (345 / (temperatureGauge.options.maxValue - temperatureGauge.options.minValue));
-        temperatureGauge.value = temperatureGauge.options.maxValue - temp;
+        let temp = (e.offsetY - 85) / (345 / (gauge[div].options.maxValue - gauge[div].options.minValue));
+        gauge[div].value = gauge[div].options.maxValue - temp;
+        thingClient.restcall('PUT', url, { value: gauge[div].value });
       }
     }
-
-    let canvasTemp = document.getElementById(div);  // get canvas element
-    canvasTemp.addEventListener('click', onclickcanvas, false); // register event
+    let canvasTemp = {};
+    canvasTemp[div] = document.getElementById(div);  // get canvas element
+    canvasTemp[div].addEventListener('click', onclickcanvas, false); // register event
   };
-  this.generateRGraphThermometer = function (div, value, min, max) {
+  this.updateCanvasThermometer = function (div, value) {
+    gauge[div].value = value;
+  };
+  this.generateRGraphThermometer = function (url, div, value, min, max) {
     // div is the id of the canvas
     // value, min and max are integers or floats
+    let newValue = '';
     new RGraph.Thermometer({
       id     : div, // 'cvsThermometer'
       min    : min,
       max    : max,
       value  : value,
       options: {
-        adjustable: true
+        // adjustable: true
       }
     }).grow();
+    gauge[div].canvas.onclick = function (e) {
+      newValue = gauge[div].getValue(e);
+
+      if (typeof newValue === 'number') {
+        gauge[div].value = newValue;
+        gauge[div].grow();
+        thingClient.restcall('PUT', url, { value: gauge[div].value });
+      }
+    };
   };
-  this.generateRGraphGauge = function (div, value, min, max) {
+  this.generateRGraphGauge = function (url, div, value, min, max) {
     // div is the id of the canvas
     // value, min and max are integers or floats
     let newValue = '';
-    let gauge = new RGraph.Gauge({
+    gauge[div] = new RGraph.Gauge({
       id     : div, // 'cvs'
       min    : min,
       max    : max,
@@ -117,15 +138,22 @@ function widgetGenerator () {
       }
     }).grow();
 
-    gauge.canvas.onclick = function (e) {
-      newValue = gauge.getValue(e);
+    gauge[div].canvas.onclick = function (e) {
+      newValue = gauge[div].getValue(e);
 
       if (typeof newValue === 'number') {
-        gauge.value = newValue;
-        gauge.grow();
+        gauge[div].value = newValue;
+        gauge[div].grow();
+        thingClient.restcall('PUT', url, { value: gauge[div].value });
       }
     };
   };
+  this.updateRGraph = function (div, value) {
+    gauge[div].value = value;
+    gauge[div].grow();
+    // RGraph.Redraw();
+  };
 
 }
+widgetGenerator.$inject = ['thingClient'];
 module.exports = widgetGenerator;
