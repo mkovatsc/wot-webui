@@ -22,6 +22,18 @@
 			"types": ["pressure", "light"],
 			"writable": true,
 			"widget_name": "gauge"
+		},
+		{
+			"widget_id": "4",
+			"types": ["windowBlinds", "window", "projectorScreen"],
+			"writable": true,
+			"widget_name": "modifiedSpinner"
+		},
+		{
+			"widget_id": "5",
+			"types": ["On/Off", "Yes/No", "Activate/Deactivate"],
+			"writable": true,
+			"widget_name": "modifiedCheckbox"
 		}
 	]
 }
