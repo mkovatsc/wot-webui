@@ -25,7 +25,7 @@
 		},
 		{
 			"widget_id": "4",
-			"types": ["windowBlinds", "window", "projectorScreen"],
+			"types": ["windowBlindsVertical", "windowVertical", "projectorScreen"],
 			"writable": true,
 			"widget_name": "modifiedSpinner"
 		},
@@ -34,6 +34,12 @@
 			"types": ["On/Off", "Yes/No", "Activate/Deactivate"],
 			"writable": true,
 			"widget_name": "modifiedCheckbox"
+		},
+		{
+			"widget_id": "6",
+			"types": ["windowBlindsHorizontal", "windowHorizontal", "projectorScreen"],
+			"writable": true,
+			"widget_name": "rangeSlider"
 		}
 	]
 }
