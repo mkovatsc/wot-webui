@@ -14,16 +14,16 @@ function AddtdCtrl ($scope, $log, $http) {
   $scope.coapAvailable = true;
   $scope.loading = false;
   $scope.checkPolyfill = function () {
-	$scope.loading = true;
-	$http({
+    $scope.loading = true;
+    $http({
       method: 'post',
       url   : 'http://localhost:8080/request'
     }).then(function (response) {
       $scope.loading = false;
-	  $scope.coapAvailable = true;
+      $scope.coapAvailable = true;
     }, function (response) {
       $scope.loading = false;
-	  if (response.status === -1) {
+      if (response.status === -1) {
         $scope.coapAvailable = false;
         $log.log(response.status);
       } else if (response.status === 500) {

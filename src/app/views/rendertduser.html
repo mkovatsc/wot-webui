@@ -1,7 +1,7 @@
 <!--<div id="errorDivUser" class="ui text container">-->
-  <div id="errorDivUser" class="ui error message">
+  <div id="errorDivUser" ng-repeat="error in errorMessage" class="ui error message">
     <i class="warning sign icon"></i>
-    Thing not responding
+    {{error}}
   </div>
 <!--</div>-->
 <div class="ui text container center aligned raised segment">
@@ -11,7 +11,9 @@
 <div class="ui text container raised segment">
   <h2 class="ui header">Properties</h2>
 </div>
-<div id="group0" class="ui horizontal segments">
+<div id="group0" class="tile-area no-padding">
+  <div class="tile-container bg-grayed">
+  </div>
   <!-- <div class="ui text container raised segment">
     <br>
   </div> -->
@@ -50,7 +52,7 @@
   </div>  -->
 </div>
 <br>
-<div class="ui text container raised segment">
+<!--<div class="ui text container raised segment">
   <br>
   <h2 class="ui header">Actions</h2>
   <div class="ui list">
@@ -84,4 +86,4 @@
     </div>
   </div>
   <br>
-</div>
+</div>-->

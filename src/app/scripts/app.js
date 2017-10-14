@@ -15,14 +15,22 @@ import ngBootstrap from 'angular-ui-bootstrap';
 import ngTranslate from 'angular-translate';
 import ngTranslateLoaderStaticFiles from 'angular-translate-loader-static-files';
 import uiRouter from 'angular-ui-router';
+import ionRangeslider from 'ion-rangeslider';
 import brace from 'brace';
+
+
+import 'metro-dist/js/metro.min';
+import '../styles/main.css';
+import '../styles/tiled-menu.css';
+import 'font-awesome/css/font-awesome.min.css';
 import 'brace/mode/json';
 import 'brace/theme/idle_fingers';
-
-import '../styles/main.css';
+import 'ion-rangeslider/css/normalize.css';
+import 'ion-rangeslider/css/ion.rangeSlider.css';
+import 'ion-rangeslider/css/ion.rangeSlider.skinNice.css';
+import 'ion-rangeslider/img/sprite-skin-simple.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'semantic-ui/dist/semantic.css';
-import 'font-awesome/css/font-awesome.min.css';
 
 import config from 'app.config';
 

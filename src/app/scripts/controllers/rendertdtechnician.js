@@ -19,6 +19,8 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
   $('.active').removeClass('active');
   $('a:contains(Technician)').parent('li').addClass('active');
   $('#errorDivTech').hide();
+  $scope.autoReloaded = [];
+  $scope.errorMessage = [];
   // let parser = require('../../../../parser/node-wot/packages/node-wot-td-tools/dist/td-parser');
   let parser = require('../../../../parser/bundle-parser');
   // $log.log(typeof($stateParams.TD));
@@ -28,8 +30,12 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
   if ($scope.TD === '') {
     $state.go('addTD');
   } else {
-
-    $scope.parsedTD = parser.parseTDObject($scope.TD);
+    try {
+      $scope.parsedTD = parser.parseTDObject($scope.TD);
+    } catch (exception) {
+      $scope.errorMessage.push(exception);
+      $state.go('addTD');
+    }
     let temp = $window.sessionStorage.getItem($scope.parsedTD.name);
     if (temp !== null) {
       $window.sessionStorage.removeItem($scope.parsedTD.name);
@@ -47,11 +53,11 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
     $scope.actions = [];
     $scope.propertyValues = {};
     $scope.actionValues = {};
-    $scope.autoReloaded = [];
+    $scope.widgets = [];
 
     $http({
       method: 'get',
-      url   : $scope.widgetResource
+      url: $scope.widgetResource
     }).then(function (response) {
       $scope.content = response.data;
       for (let i = 0; i < $scope.parsedTD.interaction.length; i++) {
@@ -78,11 +84,57 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
     }, function (error) {
       $log.log(error, 'cannot get data.');
     });
+
+    $http({
+      method: 'get',
+      url: $scope.widgetResource
+    }).then(function (response) {
+      $scope.content = response.data;
+      for (let i = 0; i < $scope.parsedTD.interaction.length; i++) {
+        let breakIndicator = false;
+        for (let j = 0; j < $scope.content.widgets.length; j++) {
+          for (let k = 0; k < $scope.parsedTD.interaction[i].semanticTypes.length; k++) {
+            for (let l = 0; l < $scope.content.widgets[j].types.length; l++) {
+              $scope.propertyValues = {name: '', value: '', url: ''};
+              if ($scope.parsedTD.interaction[i].semanticTypes[k].toLowerCase() === $scope.content.widgets[j].types[l]) {
+                $scope.propertyValues.name = $scope.content.widgets[j].widget_name;
+                $scope.propertyValues.url = $scope.parsedTD.interaction[i].link[0].href;
+                $scope.propertyValues.propertyName = $scope.parsedTD.interaction[i].name;
+                $scope.widgets.push($scope.propertyValues);
+                breakIndicator = true;
+                break;
+              }
+              /* else if ($scope.parsedTD.interaction[i].semanticTypes[0] === 'Action') {
+                                $scope.actions.push($scope.parsedTD.interaction[i]);
+                              } */
+
+              /* if ($scope.parsedTD.interaction[i].semanticTypes[0] === 'Property') {
+                $scope.properties.push($scope.parsedTD.interaction[i]);
+              } else if ($scope.parsedTD.interaction[i].semanticTypes[0] === 'Action') {
+                $scope.actions.push($scope.parsedTD.interaction[i]);
+              } */
+            }
+            if (breakIndicator) {
+              break;
+            }
+          }
+        }
+      }
+      $log.log($scope.widgets);
+      if ($scope.widgets.length === 0) {
+        $scope.$parent.$parent.widgetAvailable = false;
+      } else {
+        $window.sessionStorage.setItem('ListOfWidgets', JSON.stringify($scope.widgets));
+        $scope.$parent.$parent.widgetAvailable = true;
+      }
+    }, function (error) {
+      $log.log(error, 'cannot get data.');
+    });
   }
   $scope.showRestError = function showRestError (errorObj) {
     let msg = '';
     if (errorObj.config) {
-      msg = errorObj.config.method + ' to ' + errorObj.config.url + ' failed.<br/>';
+      msg = errorObj.config.method + ' to ' + errorObj.config.url + ' failed.';
       msg += errorObj.status + ' ' + errorObj.statusText;
     } else {
       msg = JSON.stringify(errorObj);
@@ -92,20 +144,23 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
   };
 
   $scope.showError = function showError (errorMsg) {
+    $scope.errorMessage.push(errorMsg);
     $log.log('Error:' + errorMsg);
   };
 
   $scope.updateState = function updateState () {
     $scope.properties.forEach(function (property) {
+      property.autoUpdate = true;
       let inputDiv = document.querySelectorAll('div#' + property.name);
       for (let i = 0; i < inputDiv.length; i++) {
         if (inputDiv[i].className.indexOf('ng-hide') < 0) {
-          if (inputDiv[i].children[0].className.indexOf('editted') < 0) {
+          if (inputDiv[i].children[0].className.indexOf('editted') < 0 && inputDiv[i].children[0].className.indexOf('read') < 0) {
             if (inputDiv[i].children[0].className.indexOf('polling') < 0) {
               inputDiv[i].children[0].className = inputDiv[i].children[0].className + ' polling';
             }
           } else {
             inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/editted/g, 'polling');
+            inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/read/g, 'polling');
           }
         }
       }
@@ -118,28 +173,40 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
     let inputDiv = document.querySelectorAll('div#' + property.name);
     for (let i = 0; i < inputDiv.length; i++) {
       if (inputDiv[i].className.indexOf('ng-hide') < 0) {
-        if (inputDiv[i].children[0].className.indexOf('editted') < 0) {
-          if (inputDiv[i].children[0].className.indexOf('polling') < 0) {
-            inputDiv[i].children[0].className = inputDiv[i].children[0].className + ' polling';
+        if (property.autoUpdate) {
+          if (inputDiv[i].children[0].className.indexOf('editted') < 0 && inputDiv[i].children[0].className.indexOf('read') < 0) {
+            if (inputDiv[i].children[0].className.indexOf('polling') < 0) {
+              inputDiv[i].children[0].className = inputDiv[i].children[0].className + ' polling';
+            }
+          } else {
+            inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/editted/g, 'polling');
+            inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/read/g, 'polling');
           }
         } else {
-          inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/editted/g, 'polling');
+          if (inputDiv[i].children[0].className.indexOf('editted'  && inputDiv[i].children[0].className.indexOf('polling') < 0) < 0) {
+            if (inputDiv[i].children[0].className.indexOf('read') < 0) {
+              inputDiv[i].children[0].className = inputDiv[i].children[0].className + ' read';
+            }
+          } else {
+            inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/editted/g, 'read');
+            inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/polling/g, 'read');
+          }
         }
       }
     }
   };
-
+// read
   $scope.writeProperty = function writeProperty (property) {
     thingClient.writeProperty($scope.parsedTD, property).catch($scope.showRestError);
     let inputDiv = document.querySelectorAll('div#' + property.name);
     for (let i = 0; i < inputDiv.length; i++) {
       if (inputDiv[i].className.indexOf('ng-hide') < 0) {
         if (inputDiv[i].children[0].className.indexOf('editted') < 0) {
-          if (inputDiv[i].children[0].className.indexOf('polling') < 0) {
-            inputDiv[i].children[0].className = inputDiv[i].children[0].className + ' polling';
+          if (inputDiv[i].children[0].className.indexOf('read') < 0) {
+            inputDiv[i].children[0].className = inputDiv[i].children[0].className + ' read';
           }
         } else {
-          inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/editted/g, 'polling');
+          inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/editted/g, 'read');
         }
       }
     }
@@ -150,19 +217,6 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
   };
 
   $scope.toggleAuto = function toggleAuto (property) {
-    let inputDiv = document.querySelectorAll('div#' + property.name);
-    for (let i = 0; i < inputDiv.length; i++) {
-      if (inputDiv[i].className.indexOf('ng-hide') < 0) {
-        if (inputDiv[i].children[0].className.indexOf('editted') < 0) {
-          if (inputDiv[i].children[0].className.indexOf('polling') < 0) {
-            inputDiv[i].children[0].className = inputDiv[i].children[0].className + ' polling';
-          }
-        } else {
-          inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/editted/g, 'polling');
-        }
-      }
-    }
-    // let inputList = inputDiv.getElementsByTagName('input');
     property.autoUpdate = !property.autoUpdate;
     if (property.autoUpdate) {
       $scope.autoReloaded.push(property);
@@ -170,6 +224,30 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
       let idx = $scope.autoReloaded.indexOf(property);
       if (idx > -1) {
         $scope.autoReloaded.splice(idx, 1); // remove property
+      }
+    }
+    let inputDiv = document.querySelectorAll('div#' + property.name);
+    for (let i = 0; i < inputDiv.length; i++) {
+      if (inputDiv[i].className.indexOf('ng-hide') < 0) {
+        if (property.autoUpdate) {
+          if (inputDiv[i].children[0].className.indexOf('editted') < 0 && inputDiv[i].children[0].className.indexOf('read') < 0) {
+            if (inputDiv[i].children[0].className.indexOf('polling') < 0) {
+              inputDiv[i].children[0].className = inputDiv[i].children[0].className + ' polling';
+            }
+          } else {
+            inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/editted/g, 'polling');
+            inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/read/g, 'polling');
+          }
+        } else {
+          if (inputDiv[i].children[0].className.indexOf('editted') < 0 && inputDiv[i].children[0].className.indexOf('polling') < 0) {
+            if (inputDiv[i].children[0].className.indexOf('read') < 0) {
+              inputDiv[i].children[0].className = inputDiv[i].children[0].className + ' read';
+            }
+          } else {
+            inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/editted/g, 'read');
+            inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/polling/g, 'read');
+          }
+        }
       }
     }
   };
@@ -222,6 +300,7 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
       $scope.autoReloaded.splice(idx, 1); // remove property
     }
     event.srcElement.className = event.srcElement.className.replace(/polling/g, 'editted');
+    event.srcElement.className = event.srcElement.className.replace(/read/g, 'editted');
   };
 
   $interval($scope.reloadAuto, 1000);

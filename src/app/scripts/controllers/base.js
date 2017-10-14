@@ -17,20 +17,23 @@
 function BaseCtrl ($scope, $window, $state) {
   $scope.things = [];
   $scope.child = {};
+  $scope.widgetAvailable = false;
   $scope.updateThings = function () {
-    $.each($window.sessionStorage, function(index, value) {
+    $.each($window.sessionStorage, function (index, value) {
       let item = index;
       let add = true;
 
-      for (let i = 0; i < $scope.things.length; i++) {
-        if ($scope.things[i] === item) {
+      if (item !== 'ListOfWidgets') {
+        for (let i = 0; i < $scope.things.length; i++) {
+          if ($scope.things[i] === item) {
           // clickId[i].val = item.val;
           add = false;
+          }
         }
-      }
 
-      if (add) {
-        $scope.things.push(item);
+        if (add) {
+          $scope.things.push(item);
+        }
       }
     });
   };
@@ -41,10 +44,16 @@ function BaseCtrl ($scope, $window, $state) {
   } */
   $scope.openEditor = function () {
     $state.go('editor', { thing: $scope.child.parsedTD.name });
+  };
+  $scope.deleteThing = function () {
+    $window.sessionStorage.removeItem($scope.child.parsedTD.name);
+    let index = $scope.things.indexOf($scope.child.parsedTD.name);
+    $scope.things.splice(index, 1);
+    $state.go('addTD');
   }
   $scope.openThing = function (x) {
     let content = JSON.parse($window.sessionStorage.getItem(x));
-    $state.go('renderTDUser', { TD: content });
+    $state.go('renderTD', { TD: content });
   };
 }
 BaseCtrl.$inject = ['$scope', '$window', '$state'];

@@ -22,6 +22,7 @@ function RendertdmanagerCtrl ($scope, $http, $state, $stateParams, $window, thin
   $('.active').removeClass('active');
   $('a:contains(Manager)').parent('li').addClass('active');
   $('#errorDivMan').hide();
+  $scope.errorMessage = [];
   // $('li:first').next().addClass('active');
   // let parser = require('../../../../parser/node-wot/packages/node-wot-td-tools/dist/td-parser');
   let parser = require('../../../../parser/bundle-parser');
@@ -33,7 +34,12 @@ function RendertdmanagerCtrl ($scope, $http, $state, $stateParams, $window, thin
     $state.go('addTD');
   } else {
 
-    $scope.parsedTD = parser.parseTDObject($scope.TD);
+    try {
+      $scope.parsedTD = parser.parseTDObject($scope.TD);
+    } catch (exception) {
+      $scope.errorMessage.push(exception);
+      $state.go('addTD');
+    }
     let temp = $window.sessionStorage.getItem($scope.parsedTD.name);
     if (temp !== null) {
       $window.sessionStorage.removeItem($scope.parsedTD.name);
@@ -87,7 +93,7 @@ function RendertdmanagerCtrl ($scope, $http, $state, $stateParams, $window, thin
   $scope.showRestError = function showRestError (errorObj) {
     let msg = '';
     if (errorObj.config) {
-      msg = errorObj.config.method + ' to ' + errorObj.config.url + ' failed.<br/>';
+      msg = errorObj.config.method + ' to ' + errorObj.config.url + ' failed.';
       msg += errorObj.status + ' ' + errorObj.statusText;
     } else {
       msg = JSON.stringify(errorObj);
@@ -97,6 +103,7 @@ function RendertdmanagerCtrl ($scope, $http, $state, $stateParams, $window, thin
   };
 
   $scope.showError = function showError (errorMsg) {
+    $scope.errorMessage.push(errorMsg);
     $log.log('Error:' + errorMsg);
   };
 

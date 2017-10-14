@@ -1,7 +1,7 @@
 /**
  * Application route definition.
  */
-export default function ($stateProvider, $urlRouterProvider/* , $ocLazyLoadProvider */) {
+function appRoute ($stateProvider, $urlRouterProvider/* , $ocLazyLoadProvider */) {
   'ngInject';
 
   /* $ocLazyLoadProvider.config({
@@ -147,3 +147,6 @@ export default function ($stateProvider, $urlRouterProvider/* , $ocLazyLoadProvi
    */
 
 }
+
+appRoute.$inject = ['$stateProvider', '$urlRouterProvider'];
+module.exports = appRoute;

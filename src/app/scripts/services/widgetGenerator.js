@@ -6,9 +6,11 @@
  * @description
  * # widgetGenerator
  */
-function widgetGenerator (thingClient) {
+function widgetGenerator (thingClient, $document) {
   let jqueryKnob = require('../../../../node_modules/jquery-knob/dist/jquery.knob.min.js');
   let canvasGauge = require('../../../../node_modules/canvas-gauges/gauge.min.js');
+  let gauge = {};
+  let sliders = {};
   this.generateKnob = function (url, div, value, min, max, width, height) {
   // min, max, width, height, value are integers
   // div is the class of the div where this knob would be rendered
@@ -48,7 +50,6 @@ function widgetGenerator (thingClient) {
     $('input.' + div).val(value);
     // $('input.' + div).trigger('change');
   };
-  let gauge = {};
   // let temperatureGauge = {};
   this.generateCanvasThermometer = function (url, div, value, min, max) {
     // div is the id of the canvas
@@ -104,7 +105,7 @@ function widgetGenerator (thingClient) {
     // div is the id of the canvas
     // value, min and max are integers or floats
     let newValue = '';
-    new RGraph.Thermometer({
+    gauge[div] = new RGraph.Thermometer({
       id     : div, // 'cvsThermometer'
       min    : min,
       max    : max,
@@ -153,7 +154,33 @@ function widgetGenerator (thingClient) {
     gauge[div].grow();
     // RGraph.Redraw();
   };
+  this.updateModifiedSpinner = function (div, value) {
+    $document.getElementById(div).value = value;
+  };
+  this.updateModifiedCheckbox = function (div, value) {
+    $document.getElementById(div).checked = value;
+  };
+  this.generateSlider = function (url, div, value, min, max) {
+    // min, max, width, height, value are integers
+    // div is the class of the div where this knob would be rendered
+
+    $('#' + div).ionRangeSlider({
+      min     : min,
+      max     : max,
+      from    : value,
+      onChange: function (data) {
+        console.log(data.from);
+        // thingClient.restcall('PUT', url, { value: data.from });
+      }
+    });
+  };
+  this.updateSlider = function (div, value) {
+    sliders[div] = $('#' + div).data('ionRangeSlider');
+    sliders[div].update({
+      from: value
+    });
+  };
 
 }
-widgetGenerator.$inject = ['thingClient'];
+widgetGenerator.$inject = ['thingClient', '$document'];
 module.exports = widgetGenerator;

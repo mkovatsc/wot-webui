@@ -1,7 +1,7 @@
 <!--<div id="errorDivMan" class="ui text container">-->
-  <div id="errorDivMan" class="ui error message">
+  <div id="errorDivMan" ng-repeat="error in errorMessage" class="ui error message">
     <i class="warning sign icon"></i>
-    Thing not responding
+    {{error}}
   </div>
 <!--</div>-->
 <div class="ui text container center aligned raised segment">

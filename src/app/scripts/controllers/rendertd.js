@@ -15,7 +15,7 @@
       'Karma'
     ]; */
 function RendertdCtrl ($scope, $http, $state, $stateParams) {
-  $state.go('renderTDUser', $stateParams.TD);
+  $state.go('renderTDTechnician', $stateParams.TD);
 }
 RendertdCtrl.$inject = ['$scope', '$http', '$state', '$stateParams'];
 module.exports = RendertdCtrl;

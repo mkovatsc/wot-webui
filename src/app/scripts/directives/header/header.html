@@ -1,8 +1,33 @@
-<nav class="navbar navbar-default navbar-static-top ui sticky" role="navigation"
-     style="margin-bottom: 0; padding-top: 10px;">
-  <div style="margin-left:5%;" class="navbar-header">
-    <a class="ui left floated header" ui-sref-active="active" ui-sref="addTD">WebUI</a>
-    <a class="ui right floated header" ng-click="openEditor()" ng-show="isCurrentThing">Edit Thing</a>
+<nav class="ui fixed menu" role="navigation"
+     style="margin-bottom: 0;">
+  <div style="margin-left:5% !important;" class="ui container">
+    <a class="header item" ui-sref-active="active" ui-sref="addTD">WebUI</a>
+    <div style="margin-left: 0 !important;" class="ui simple dropdown right floated item" ng-show="isCurrentThing">
+      Edit <i class="dropdown icon"></i>
+      <div class="menu">
+        <a style="margin-left: 0 !important;" class="right floated item" ng-click="openEditor()" ng-show="isCurrentThing"><i class="edit icon"></i>Edit Thing</a>
+        <a style="margin-left: 0 !important;" class="right floated item" ng-click="deleteThing()" ng-show="isCurrentThing"><i class="trash icon"></i>Remove Thing</a>
+      </div>
+    </div>
+    <div style="margin-left: 0 !important;" class="ui simple dropdown right floated item" ng-show="isCurrentThing">
+      Views <i class="dropdown icon"></i>
+      <div class="menu">
+        <a class="item" ui-sref="renderTDTechnician">Raw</a>
+        <!--<a class="item" ui-sref="renderTDManager">Manager</a>-->
+        <a class="item" ui-sref="renderTDUser" ng-class="{'disabledLink': !widgetAvailable}">User</a>
+        <!--<div class="divider"></div>
+        <div class="header">Header Item</div>
+        <div class="item">
+          <i class="dropdown icon"></i>
+          Sub Menu
+          <div class="menu">
+            <a class="item" href="#">Link Item</a>
+            <a class="item" href="#">Link Item</a>
+          </div>
+        </div>
+        <a class="item" href="#">Link Item</a>-->
+      </div>
+    </div>
   </div>
   <!--<sidebar></sidebar>-->
 </nav>

@@ -1,8 +1,12 @@
 <label>Insert URI:</label>
-<div class="ui labeled input">
+<!--<div class="ui labeled input">
   <div class="ui label">
     http://
   </div>
-  <input ng-model="tduri" type="text" inputmode="url" /></div>
-  <br>
-<div style="padding-top: 1%; padding-left:5em"><input ng-click="submit()" type="button" value="Submit"></div>
+  <input ng-model="tduri" type="text" inputmode="url" /></div>-->
+<div class="ui action input">
+  <input style="width: 350px;" ng-model="tduri" type="text" ng-keyup="check($event)" inputmode="url" placeholder="http://www.example.com/mything.jsonld">
+  <button class="ui button"><i class="fa fa-arrow-right" ng-click="submit()"></i></button>
+</div>
+  <!--<br>
+<div style="padding-top: 1%; padding-left:5em"><input  type="button" value="Submit"></div>-->

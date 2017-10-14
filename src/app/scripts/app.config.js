@@ -1,7 +1,7 @@
 /**
  * Application configuration.
  */
-export default function (ENVIRONNEMENT, $compileProvider, $locationProvider, $translateProvider) {
+function appConfig (ENVIRONNEMENT, $compileProvider, $locationProvider, $translateProvider) {
   'ngInject';
 
   // Reference: https://docs.angularjs.org/api/ng/provider/$locationProvider#html5Mode
@@ -20,3 +20,6 @@ export default function (ENVIRONNEMENT, $compileProvider, $locationProvider, $tr
     .preferredLanguage(navigator.browserLanguage || navigator.language);
 
 }
+
+appConfig.$inject = ['ENVIRONNEMENT', '$compileProvider', '$locationProvider', '$translateProvider'];
+module.exports = appConfig;

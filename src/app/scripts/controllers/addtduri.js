@@ -29,6 +29,12 @@ function AddtduriCtrl ($scope, $http, $state, $window, $log) {
       alert('invalid');
     }
   };
+
+  $scope.check = function (event) {
+    if (event.keyCode === 13) {
+      $scope.submit();
+    }
+  }
 }
 AddtduriCtrl.$inject = ['$scope', '$http', '$state', '$window', '$log'];
 module.exports = AddtduriCtrl;

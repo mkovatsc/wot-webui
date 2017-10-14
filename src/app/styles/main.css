@@ -1,5 +1,15 @@
 .ui.visible.vertical.left.sidebar.menu{
-  top: 51px;
+  top: 0px;
+}
+.navbar-default.sidebar{
+  top: 0 !important;
+}
+
+.disabledLink {
+  color: #ccc;
+  pointer-events:none;
+  cursor: not-allowed;
+  opacity: .3;
 }
 
 .ui.text.container.raised.segment{
@@ -33,7 +43,7 @@ div.header > div.navbar-default > div.container{
 }
 
 div.container > div.container > div.container > div.pusher{
-  margin-left: 20%;
+  width: 80%;
   margin-top: 2%;
 }
 
@@ -142,7 +152,7 @@ div.container > div.container > div.container > div.pusher{
     z-index: 1;
     position: absolute;
     width: 250px;
-    margin-top: 51px;
+    margin-top: 3.4%;
   }
 
   .navbar-top-links .dropdown-messages,
@@ -262,5 +272,54 @@ a.ui.right.floated.header {
 }
 
 .polling {
+  -webkit-animation-name: pulseBorder;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: ease;
+  -webkit-animation-direction: alternate;
+  -webkit-animation-duration: 0.5s;
+  text-align:center;
   border:2px solid green !important;
+}
+
+.read {
+  border:2px solid green !important;
+}
+
+@-webkit-keyframes pulseBorder {
+  from {
+    border: solid 2px #00ff00;
+  }
+  to {
+    border: solid 2px #008f00;
+
+  }
+}
+
+input[type="number"].modifiedSpinner {
+  position: relative;
+  margin: 0 0 1rem;
+  border: 1px solid #BBB;
+  border-color: #BBB #ECECEC #ECECEC #BBB;
+  padding: .2rem;
+  height: 40px;
+}
+
+/* Spin Buttons modified */
+input[type="number"].modifiedSpinner::-webkit-outer-spin-button,
+input[type="number"].modifiedSpinner::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  background: #FFF url(https://image.flaticon.com/icons/svg/36/36874.svg
+  ) no-repeat center center;
+  width: 50%;
+  border-left: 1px solid #BBB;
+  opacity: 1; /* shows Spin Buttons per default (Chrome >= 39) */
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+input[type="number"].modifiedSpinner::-webkit-inner-spin-button:hover,
+input[type="number"].modifiedSpinner::-webkit-inner-spin-button:active{
+  box-shadow: 0 0 2px #0CF;
+  opacity: 1;
 }
