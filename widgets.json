@@ -40,6 +40,12 @@
 			"types": ["windowBlindsHorizontal", "windowHorizontal", "projectorScreen"],
 			"writable": true,
 			"widget_name": "rangeSlider"
+		},
+		{
+			"widget_id": "7",
+			"types": ["multiMode", "AC", "carAC", "carRoof"],
+			"writable": true,
+			"widget_name": "multiMode"
 		}
 	]
 }
