@@ -19,13 +19,13 @@ function appRoute ($stateProvider, $urlRouterProvider/* , $ocLazyLoadProvider */
         }
       }
     })
-    .state('about', {
-      url  : '/view',
+    .state('configuration', {
+      url  : '/configuration',
       views: {
         'content@': {
-          template    : require('../views/about.html'),
-          controller  : 'AboutCtrl',
-          controllerAs: 'about'
+          template    : require('../views/configuration.html'),
+          controller  : 'ConfigurationCtrl',
+          controllerAs: 'configuration'
         }
       }
     })

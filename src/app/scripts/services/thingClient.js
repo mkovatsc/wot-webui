@@ -86,8 +86,9 @@ function thingClient ($http/* ,coap */) {
 
     if (action.uri) {
       return restcall('POST', action.uri, payload);
+    } else if (action.link[0].href) {
+      return restcall('POST', action.link[0].href, payload);
     }
-
    /* if (thing.protocols['HTTP']) {
       return $http.post(thing.protocols['HTTP'].uri + '/' + action.name, payload);
     } else {
@@ -96,6 +97,5 @@ function thingClient ($http/* ,coap */) {
     } */
   };
 }
-
 thingClient.$inject = ['$http'/* ,'coap' */];
 module.exports = thingClient;

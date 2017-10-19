@@ -14,6 +14,8 @@ function ViewwidgetsCtrl ($scope, $http, widgetGenerator) {
   widgetGenerator.generateRGraphThermometer('', 'cvsThermometer', 23, 0, 40);
   widgetGenerator.generateRGraphGauge('', 'cvs', 4, 0, 10);
   widgetGenerator.generateSlider('', 'slider_id', 60, 0, 100);
+  widgetGenerator.generateRGraphMeter('', 'cvs2', 1, 'AC');
+  widgetGenerator.updateRGraphMeter('cvs2', 'Cool');
   /* let jqueryKnob = require('../../../../node_modules/jquery-knob/dist/jquery.knob.min.js');
   let canvasGauge = require('../../../../node_modules/canvas-gauges/gauge.min.js');
   $scope.value = 4;

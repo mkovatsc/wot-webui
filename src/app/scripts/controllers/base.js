@@ -23,7 +23,7 @@ function BaseCtrl ($scope, $window, $state) {
       let item = index;
       let add = true;
 
-      if (item !== 'ListOfWidgets') {
+      if (item !== 'ListOfWidgets' && item !== 'interval') {
         for (let i = 0; i < $scope.things.length; i++) {
           if ($scope.things[i] === item) {
           // clickId[i].val = item.val;
@@ -38,6 +38,7 @@ function BaseCtrl ($scope, $window, $state) {
     });
   };
   $scope.updateThings();
+  $window.sessionStorage.setItem('interval', 1000);
   $scope.isCurrentThing = false;
  /* for (let i = 0; i < $window.sessionStorage.length; i++) {
     $scope.things.push($window.sessionStorage.key(i));

@@ -49,9 +49,12 @@ import RenderTdUser from './controllers/rendertduser';
 import RenderTdTechnician from './controllers/rendertdtechnician';
 import RenderTdManager from './controllers/rendertdmanager';
 import Editor from './controllers/editor';
+import Configuration from './controllers/configuration';
 import header from './directives/header/header';
 import widgetGenerator from './services/widgetGenerator';
 import thingClient from './services/thingClient';
+
+// import '../../../other_components/PerfectWidgetsExpress/Scripts/PerfectWidgets';
 // import sidebar from './directives/sidebar/sidebar';
 // import typedjson from '../../../other_components/node-wot/packages/node-wot-td-tools/node_modules/typedjson-npm/js/typed-json.js';
 // import parseTDObject from '../../../other_components/node-wot/packages/node-wot-td-tools/dist/td-parser';
@@ -86,6 +89,7 @@ export default angular.module('wotwebui', [
 .controller('RendertdtechnicianCtrl', RenderTdTechnician)
 .controller('RendertdmanagerCtrl', RenderTdManager)
 .controller('EditorCtrl', Editor)
+.controller('ConfigurationCtrl', Configuration)
 .directive('header', header)
 .service('widgetGenerator', widgetGenerator)
 .service('thingClient', thingClient)

@@ -11,9 +11,11 @@ function widgetGenerator (thingClient, $document) {
   let canvasGauge = require('../../../../node_modules/canvas-gauges/gauge.min.js');
   let gauge = {};
   let sliders = {};
+  let meters = {};
   this.generateKnob = function (url, div, value, min, max, width, height) {
   // min, max, width, height, value are integers
   // div is the class of the div where this knob would be rendered
+    let property = { link: [ { href: url } ], 'value': value };
     let knobWidth = 0;
     let knobHeight = 0;
     if (width === undefined || width === '') {
@@ -41,7 +43,8 @@ function widgetGenerator (thingClient, $document) {
       min   : min,
       max   : max,
       change: function (v) {
-        // thingClient.restcall('PUT', url, { value: v });
+        property.value = v;
+        thingClient.writeProperty('', property);
         // alert('changed');
       }
     });
@@ -54,6 +57,7 @@ function widgetGenerator (thingClient, $document) {
   this.generateCanvasThermometer = function (url, div, value, min, max) {
     // div is the id of the canvas
     // value, min and max are integers or floats
+    let property = { link: [ { href: url } ], 'value': value };
     let range = [];
     let i = min;
     while (i <= max) {
@@ -91,7 +95,8 @@ function widgetGenerator (thingClient, $document) {
       if (e.offsetX > 45 && e.offsetX < 110 && e.offsetY > 85 && e.offsetY < 430) {
         let temp = (e.offsetY - 85) / (345 / (gauge[div].options.maxValue - gauge[div].options.minValue));
         gauge[div].value = gauge[div].options.maxValue - temp;
-        thingClient.restcall('PUT', url, { value: gauge[div].value });
+        property.value = gauge[div].value;
+        thingClient.writeProperty('', property);
       }
     }
     let canvasTemp = {};
@@ -104,6 +109,7 @@ function widgetGenerator (thingClient, $document) {
   this.generateRGraphThermometer = function (url, div, value, min, max) {
     // div is the id of the canvas
     // value, min and max are integers or floats
+    let property = { link: [ { href: url } ], 'value': value };
     let newValue = '';
     gauge[div] = new RGraph.Thermometer({
       id     : div, // 'cvsThermometer'
@@ -120,13 +126,91 @@ function widgetGenerator (thingClient, $document) {
       if (typeof newValue === 'number') {
         gauge[div].value = newValue;
         gauge[div].grow();
-        thingClient.restcall('PUT', url, { value: gauge[div].value });
+        property.value = gauge[div].value;
+        thingClient.writeProperty('', property);
+      }
+    };
+  };
+  this.generateRGraphMeter = function (url, div, value, type) {
+    // div is the id of the canvas
+    // value, min and max are integers or floats
+    let property = { link: [ { href: url } ], 'value': value };
+    let newValue = '';
+    let labels = '';
+    let redEnd = '';
+    let yellowEnd = '';
+    let finalValue = '';
+    switch (type) {
+        case 'AC':
+          labels = [['Fan', 1], ['Dry', 3], ['Cool', 5]];
+          redEnd = 2;
+          yellowEnd = 4;
+          break;
+        case 'carAC':
+          labels = [['Face', 1], ['Face and Feet', 3], ['Feet', 5]];
+          redEnd = 2;
+          yellowEnd = 4;
+          break;
+        case 'carRoof':
+          labels = [['Roof Window', 1], ['Half Open', 3], ['Full Open', 5]];
+          redEnd = 2;
+          yellowEnd = 4;
+          break;
+        case 'WashingMachine':
+          labels = [['Normal', 1], ['Cotton', 3], ['Wool', 5]];
+          redEnd = 2;
+          yellowEnd = 4;
+          break;
+        default:
+          labels = [['Low', 1], ['Medium', 3], ['High', 5]];
+          redEnd = 2;
+          yellowEnd = 4;
+          break;
+    }
+    meters[div] = new RGraph.Meter({
+      id     : div,
+      min    : 0,
+      max    : 6,
+      value  : value,
+      options: {
+        anglesStart       : RGraph.PI + 0.5,
+        anglesEnd         : RGraph.TWOPI - 0.5,
+        linewidthSegments : 0,
+        textSize          : 16,
+        strokestyle       : 'black',
+        segmentRadiusStart: 205,
+        border            : 0,
+        tickmarksSmallNum : 0,
+        tickmarksBigNum   : 0,
+        adjustable        : false,
+        labelsSpecific    : labels,
+        redEnd            : redEnd,
+        yellowEnd         : yellowEnd,
+        textAccessible    : false
+      }
+    }).draw();
+
+    meters[div].canvas.onclick = function (e) {
+      newValue = meters[div].getValue(e);
+
+      if (typeof newValue === 'number') {
+        meters[div].value = newValue;
+        meters[div].grow();
+        for (let i = 0; i < labels.length; i++) {
+          if (labels[i][1] + 1 >= newValue) {
+            finalValue = labels[i][0];
+            break;
+          }
+        }
+        property.value = finalValue;
+        thingClient.writeProperty('', property);
       }
     };
   };
   this.generateRGraphGauge = function (url, div, value, min, max) {
     // div is the id of the canvas
     // value, min and max are integers or floats
+    let property = { link: [ { href: url } ], 'value': value };
     let newValue = '';
     gauge[div] = new RGraph.Gauge({
       id     : div, // 'cvs'
@@ -145,13 +229,26 @@ function widgetGenerator (thingClient, $document) {
       if (typeof newValue === 'number') {
         gauge[div].value = newValue;
         gauge[div].grow();
-        thingClient.restcall('PUT', url, { value: gauge[div].value });
+        property.value = gauge[div].value;
+        thingClient.writeProperty('', property);
       }
     };
   };
+
   this.updateRGraph = function (div, value) {
     gauge[div].value = value;
     gauge[div].grow();
+    // RGraph.Redraw();
+  };
+  this.updateRGraphMeter = function (div, value) {
+    let name = 'chart.labels.specific';
+    for (let i = 0; i < meters[div].properties[name].length; i++) {
+      if (meters[div].properties[name][i][0] === value) {
+        meters[div].value = meters[div].properties[name][i][1];
+        meters[div].grow();
+        break;
+      }
+    }
     // RGraph.Redraw();
   };
   this.updateModifiedSpinner = function (div, value) {
@@ -163,14 +260,15 @@ function widgetGenerator (thingClient, $document) {
   this.generateSlider = function (url, div, value, min, max) {
     // min, max, width, height, value are integers
     // div is the class of the div where this knob would be rendered
-
+    let property = { link: [ { href: url } ], 'value': value };
     $('#' + div).ionRangeSlider({
       min     : min,
       max     : max,
       from    : value,
       onChange: function (data) {
         console.log(data.from);
-        // thingClient.restcall('PUT', url, { value: data.from });
+        property.value = data.from;
+        // thingClient.writeProperty('', property);
       }
     });
   };

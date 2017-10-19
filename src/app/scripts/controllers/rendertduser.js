@@ -70,8 +70,10 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
             widgetGenerator.updateModifiedCheckbox($scope.properties[m].divClass, $scope.properties[m].value);
           }  else if ($scope.properties[m].name === 'modifiedSpinner') {
             widgetGenerator.updateModifiedSpinner($scope.properties[m].divClass, $scope.properties[m].value);
-          }  else if ($scope.properties[m].name === 'modifiedSpinner') {
+          }  else if ($scope.properties[m].name === 'rangeSlider') {
             widgetGenerator.updateSlider($scope.properties[m].divClass, $scope.properties[m].value);
+          }  else if ($scope.properties[m].name === 'multiMode') {
+            widgetGenerator.updateRGraph($scope.properties[m].divClass, $scope.properties[m].value);
           }
 
         }, function (error) {
@@ -80,7 +82,6 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
         }); */
       }
     };
-
     $scope.renderWidgets = function () {
       let classID = '';
       let canvas_html = '';
@@ -119,6 +120,8 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
             canvas_html = '<div class="tile-large bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <input id="' + classID + '" min="' + min + '" max="' + max + '" class="modifiedSpinner" type="number" value="' + $scope.properties[m].value + '"></div></div>';
           } else if ($scope.properties[m].name === 'rangeSlider') {
             canvas_html = '<div class="tile-large bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3><input type="text" class="' + classID + '"> </div></div>';
+          } else if ($scope.properties[m].name === 'multiMode') {
+            canvas_html = '<div class="tile-large bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <canvas id="' + classID + '" width="600" height="300">[No canvas support]</canvas> </div></div>';
           }
           element = angular.element(canvas_html);
           $compile(element)($scope);
@@ -148,6 +151,8 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
             widgetGenerator.generateRGraphGauge($scope.properties[m].url, classID, $scope.properties[m].value, min, max);
           } else if ($scope.properties[m].name === 'rangeSlider') {
             widgetGenerator.generateSlider($scope.properties[m].url, classID, $scope.properties[m].value, min, max);
+          } else if ($scope.properties[m].name === 'multiMode') {
+            widgetGenerator.generateRGraphMeter($scope.properties[m].url, classID, $scope.properties[m].value);
           }
         }, function (error) {
           $('#errorDivUser').show();
@@ -165,7 +170,6 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
 
       reloader = $interval($scope.updateWidgets, 1000);
     };
-
     $scope.properties = JSON.parse($window.sessionStorage.getItem('ListOfWidgets'));
     if ($scope.properties === null) {
       $scope.properties = [];

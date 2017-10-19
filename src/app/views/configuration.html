@@ -1,0 +1,17 @@
+<h2>Configuration</h2>
+<div style="width: 80%; margin-top: 2%;" class="ui positive message" ng-show="successMessage">
+  <i class="checkmark icon"></i>
+  Data Saved successfully!
+</div>
+<label>Set Refresh Interval (ms):</label>
+<div class="ui input">
+  <input ng-model="interval" type="number">
+</div>
+<div style="">
+  <a ng-click="submit()" class="ui primary button reader">
+    Submit
+  </a>
+  <a ui-sref="addTD" class="ui button reader">
+    Discard
+  </a>
+</div>

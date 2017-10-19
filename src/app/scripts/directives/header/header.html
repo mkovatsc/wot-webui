@@ -2,6 +2,13 @@
      style="margin-bottom: 0;">
   <div style="margin-left:5% !important;" class="ui container">
     <a class="header item" ui-sref-active="active" ui-sref="addTD">WebUI</a>
+    <div style="margin-left: 0 !important;" class="ui simple dropdown right floated item">
+      Menu <i class="dropdown icon"></i>
+      <div class="menu">
+        <a style="margin-left: 0 !important;" class="right floated item"  ui-sref="viewWidgets"><i class="list layout icon"></i>Available Widgets</a>
+        <a style="margin-left: 0 !important;" class="right floated item" ui-sref="configuration"><i class="settings icon"></i>Configuration</a>
+      </div>
+    </div>
     <div style="margin-left: 0 !important;" class="ui simple dropdown right floated item" ng-show="isCurrentThing">
       Edit <i class="dropdown icon"></i>
       <div class="menu">

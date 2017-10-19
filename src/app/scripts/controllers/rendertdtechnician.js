@@ -25,6 +25,7 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
   let parser = require('../../../../parser/bundle-parser');
   // $log.log(typeof($stateParams.TD));
   $scope.TD = $stateParams.TD;
+  $scope.interval = Number($window.sessionStorage.getItem('interval'));
   /* $('.active').removeClass('active');
   $('li:first').next().addClass('active'); */
   if ($scope.TD === '') {
@@ -78,6 +79,7 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
             $log.log(error, 'cannot get data.');
           }); */
         } else if ($scope.parsedTD.interaction[i].semanticTypes[0] === 'Action') {
+          $scope.actionValues[$scope.parsedTD.interaction[i].name] = '';
           $scope.actions.push($scope.parsedTD.interaction[i]);
         }
       }
@@ -287,6 +289,16 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
     }
   };
 
+  $scope.setTypeArray = function setType (type) {
+    if (angular.isNumber(type)) {
+      return 'number';
+    } else if (angular.isString(type)) {
+      return 'text';
+    } else if (typeof type === 'boolean') {
+      return 'checkbox';
+    }
+  };
+
   $scope.editClass = function (event) {
     let property = {};
     for (let i = 0; i < $scope.properties.length; i++) {
@@ -303,8 +315,7 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
     event.srcElement.className = event.srcElement.className.replace(/read/g, 'editted');
   };
 
-  $interval($scope.reloadAuto, 1000);
-
+  $interval($scope.reloadAuto, $scope.interval);
 }
 
 RendertdtechnicianCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', '$window', 'thingClient', '$interval', '$log'];
