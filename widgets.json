@@ -43,7 +43,7 @@
 		},
 		{
 			"widget_id": "7",
-			"types": ["multiMode", "AC", "carAC", "carRoof"],
+			"types": ["multiMode", "AC", "carAC", "carRoof", "WashingMachine"],
 			"writable": true,
 			"widget_name": "multiMode"
 		}
