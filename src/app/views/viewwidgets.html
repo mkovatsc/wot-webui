@@ -2,41 +2,73 @@
 <p>This is the viewWidgets view.</p>
 -->
 
-<h1 style="padding-left:6em">For Light Intensity</h1>
-<div style="padding-left:11em">
- <input type="text" class="dial"> <br><br>
+<div id="group0" class="tile-area no-padding">
+  <div style="width: 90%" class="tile-container bg-grayLighter">
+    <div class="tile-large bg-white">
+      <div class="tile-content">
+      <h3>Regulator or Knob</h3>
+        <input type="text" class="dial">
+      </div>
+    </div>
+
+    <div class="tile-large bg-white">
+      <div class="tile-content">
+        <h3>Rgraph Gauge</h3>
+        <canvas id="cvs" width="250" height="250">
+          [No canvas support]
+        </canvas>
+      </div>
+    </div>
+
+    <div class="tile bg-white">
+      <div class="tile-content">
+        <h3>Toggle</h3>
+        <div class="ui fitted toggle checkbox">
+          <input type="checkbox" checked>
+          <label></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="tile bg-white">
+      <div class="tile-content">
+        <h3>Modified Spinner</h3>
+        <label for="input-number-mod">(just Chrome)</label>
+        <input id="input-number-mod" min="23" max="30" class="modifiedSpinner" type="number" value="25" />
+      </div>
+    </div>
+
+    <div class="tile-large tile-super-y bg-white">
+      <div class="tile-content">
+        <h3>Canvas Thermometer</h3>
+        <canvas id="gauge-id"></canvas>
+      </div>
+    </div>
+
+    <div class="tile-wide tile-big-y bg-white">
+      <div class="tile-content">
+        <h3>Rgraph Thermometer</h3>
+        <canvas id="cvsThermometer" width="100" height="400">
+          [No canvas support]
+        </canvas>
+      </div>
+    </div>
+
+    <div class="tile tile-big-y tile-super-x bg-white">
+      <div class="tile-content tile-content-modified">
+        <h3>Rgraph Meter</h3>
+        <canvas id="cvs2" width="600" height="300">
+          [No canvas support]
+        </canvas>
+      </div>
+    </div>
+
+    <div class="tile tile-xtra-large-x bg-white">
+      <div class="tile-content tile-content-modified">
+        <h3>Slider</h3>
+        <input type="text" id="slider_id" name="slider_name" value="" />
+      </div>
+    </div>
+
+  </div>
 </div>
-<!--<ui-knob style="padding-left:11em" value="value" options="options"></ui-knob>-->
-
-<canvas id="cvs" width="600" height="250">
-  [No canvas support]
-</canvas>
-
-<h1 style="padding-left:4em">For Air Conditioner or Heater</h1>
-
-<div style="padding-left:14em">
-  <canvas id="cvsThermometer" width="100" height="400">
-    [No canvas support]
-  </canvas>
-</div>
-<div style="padding-left:14em">
-  <canvas id="gauge-id"></canvas>
-</div>
-
-<h1 style="padding-left:4em">Misc</h1>
-
-<label for="input-number-mod">Modified Spin-Buttons (just Chrome)</label>
-<input id="input-number-mod" min="23" max="30" class="modifiedSpinner" type="number" value="25" />
-
-<br>
-<div class="ui fitted toggle checkbox">
-  <input type="checkbox" checked>
-  <label></label>
-</div>
-
-<br>
-<input type="text" id="slider_id" name="slider_name" value="" />
-
-<canvas id="cvs2" width="600" height="300">
-  [No canvas support]
-</canvas>

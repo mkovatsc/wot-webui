@@ -261,8 +261,6 @@
   z-index: 999;
 }
 .tile-small {
-  width: 150px;
-  height: 150px;
   display: block;
   float: left;
   margin: 5px;
@@ -397,7 +395,6 @@
   z-index: 999;
 }
 .tile-wide {
-  width: 150px;
   display: block;
   float: left;
   margin: 5px;
@@ -975,6 +972,12 @@
 .tile-super-y {
   height: 630px;
 }
+.tile-xtra-large-x{
+  width: 800px;
+}
+.tile-xtra-large-y{
+  height: 800px;
+}
 .tile-content {
   position: absolute;
   top: 0;
@@ -983,6 +986,10 @@
   height: inherit;
   overflow: hidden;
   display: none;
+}
+.tile-content-modified {
+  left: 5%;
+  width: 90%;
 }
 .tile-content:first-child {
   display: block;

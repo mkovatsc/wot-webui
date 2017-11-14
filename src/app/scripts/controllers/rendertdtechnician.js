@@ -97,11 +97,12 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
         for (let j = 0; j < $scope.content.widgets.length; j++) {
           for (let k = 0; k < $scope.parsedTD.interaction[i].semanticTypes.length; k++) {
             for (let l = 0; l < $scope.content.widgets[j].types.length; l++) {
-              $scope.propertyValues = {name: '', value: '', url: ''};
+              $scope.propertyValues = {name: '', value: '', url: '', propertyName: '', writable: ''};
               if ($scope.parsedTD.interaction[i].semanticTypes[k].toLowerCase() === $scope.content.widgets[j].types[l]) {
                 $scope.propertyValues.name = $scope.content.widgets[j].widget_name;
                 $scope.propertyValues.url = $scope.parsedTD.interaction[i].link[0].href;
                 $scope.propertyValues.propertyName = $scope.parsedTD.interaction[i].name;
+                $scope.propertyValues.writable = $scope.parsedTD.interaction[i].writable;
                 $scope.widgets.push($scope.propertyValues);
                 breakIndicator = true;
                 break;

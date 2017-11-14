@@ -113,15 +113,15 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
           } else if ($scope.properties[m].name === 'canvas-thermometer') {
             canvas_html = '<div class="tile-large tile-super-y bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <canvas id="' + classID + '"></canvas> </div></div>';
           } else if ($scope.properties[m].name === 'gauge') {
-            canvas_html = '<div class="tile-large bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <canvas id="' + classID + '" width="600" height="250">[No canvas support]</canvas> </div></div>';
+            canvas_html = '<div class="tile-large bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <canvas id="' + classID + '" width="250" height="250">[No canvas support]</canvas> </div></div>';
           } else if ($scope.properties[m].name === 'modifiedCheckbox') {
-            canvas_html = '<div class="tile-large bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <div class="ui fitted toggle checkbox"><input type="checkbox" checked id="' + classID + '"></div></div>';
+            canvas_html = '<div class="tile bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <div class="ui fitted toggle checkbox"><input type="checkbox" checked ng-disabled="' + $scope.properties[m].writable + '" id="' + classID + '"></div></div>';
           } else if ($scope.properties[m].name === 'modifiedSpinner') {
-            canvas_html = '<div class="tile-large bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <input id="' + classID + '" min="' + min + '" max="' + max + '" class="modifiedSpinner" type="number" value="' + $scope.properties[m].value + '"></div></div>';
+            canvas_html = '<div class="tile bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <input id="' + classID + '" min="' + min + '" max="' + max + '" ng-disabled="' + $scope.properties[m].writable + '" class="modifiedSpinner" type="number" value="' + $scope.properties[m].value + '"></div></div>';
           } else if ($scope.properties[m].name === 'rangeSlider') {
-            canvas_html = '<div class="tile-large bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3><input type="text" class="' + classID + '"> </div></div>';
+            canvas_html = '<div class="tile tile-xtra-large-x bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3><input type="text" class="' + classID + '"> </div></div>';
           } else if ($scope.properties[m].name === 'multiMode') {
-            canvas_html = '<div class="tile-large bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <canvas id="' + classID + '" width="600" height="300">[No canvas support]</canvas> </div></div>';
+            canvas_html = '<div class="tile tile-big-y tile-super-x bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <canvas id="' + classID + '" width="600" height="300">[No canvas support]</canvas> </div></div>';
           }
           element = angular.element(canvas_html);
           $compile(element)($scope);
@@ -142,17 +142,17 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
             $('#' + groupId).append(element);
           } */
           if ($scope.properties[m].name === 'ui-knob') {
-            widgetGenerator.generateKnob($scope.properties[m].url, classID, $scope.properties[m].value, min, max);
+            widgetGenerator.generateKnob($scope.properties[m].url, classID, $scope.properties[m].value, min, max, $scope.properties[m].writable);
           } else if ($scope.properties[m].name === 'rgraph-thermometer') {
-            widgetGenerator.generateRGraphThermometer($scope.properties[m].url, classID, $scope.properties[m].value, $scope.properties[m].value - 10, $scope.properties[m].value + 10);
+            widgetGenerator.generateRGraphThermometer($scope.properties[m].url, classID, $scope.properties[m].value, $scope.properties[m].value - 10, $scope.properties[m].value + 10, $scope.properties[m].writable);
           } else if ($scope.properties[m].name === 'canvas-thermometer') {
-            widgetGenerator.generateCanvasThermometer($scope.properties[m].url, classID, $scope.properties[m].value, -30, 40);
+            widgetGenerator.generateCanvasThermometer($scope.properties[m].url, classID, $scope.properties[m].value, -30, 40, $scope.properties[m].writable);
           } else if ($scope.properties[m].name === 'gauge') {
-            widgetGenerator.generateRGraphGauge($scope.properties[m].url, classID, $scope.properties[m].value, min, max);
+            widgetGenerator.generateRGraphGauge($scope.properties[m].url, classID, $scope.properties[m].value, min, max, $scope.properties[m].writable);
           } else if ($scope.properties[m].name === 'rangeSlider') {
-            widgetGenerator.generateSlider($scope.properties[m].url, classID, $scope.properties[m].value, min, max);
+            widgetGenerator.generateSlider($scope.properties[m].url, classID, $scope.properties[m].value, min, max, $scope.properties[m].writable);
           } else if ($scope.properties[m].name === 'multiMode') {
-            widgetGenerator.generateRGraphMeter($scope.properties[m].url, classID, $scope.properties[m].value);
+            widgetGenerator.generateRGraphMeter($scope.properties[m].url, classID, $scope.properties[m].value, $scope.properties[m].writable, $scope.properties[m].propertyName);
           }
         }, function (error) {
           $('#errorDivUser').show();
@@ -189,6 +189,7 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
                   propertyValues.name = $scope.content.widgets[j].widget_name;
                   propertyValues.url = $scope.parsedTD.interaction[i].link[0].href;
                   propertyValues.propertyName = $scope.parsedTD.interaction[i].name;
+                  propertyValues.writable = $scope.parsedTD.interaction[i].writable;
                   $scope.properties.push(propertyValues);
                   breakIndicator = true;
                   break;
