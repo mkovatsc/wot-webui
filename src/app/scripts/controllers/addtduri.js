@@ -8,7 +8,7 @@
  * Controller of the wotwebui
  */
 
-function AddtduriCtrl ($scope, $http, $state, $window, $log) {
+function AddtduriCtrl ($scope, $http, $state, $log) {
   $scope.tduri = '';
   $scope.submit = function () {
     if ($scope.tduri !== undefined) {
@@ -36,5 +36,5 @@ function AddtduriCtrl ($scope, $http, $state, $window, $log) {
     }
   }
 }
-AddtduriCtrl.$inject = ['$scope', '$http', '$state', '$window', '$log'];
+AddtduriCtrl.$inject = ['$scope', '$http', '$state', '$log'];
 module.exports = AddtduriCtrl;

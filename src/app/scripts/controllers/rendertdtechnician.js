@@ -58,7 +58,7 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
 
     $http({
       method: 'get',
-      url: $scope.widgetResource
+      url   : $scope.widgetResource
     }).then(function (response) {
       $scope.content = response.data;
       for (let i = 0; i < $scope.parsedTD.interaction.length; i++) {

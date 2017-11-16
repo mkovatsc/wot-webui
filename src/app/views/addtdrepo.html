@@ -1,1 +1,10 @@
-<p>This is the addTDRepo view.</p>
+<div class="ui text container center aligned raised segment">
+  <h1 class="ui header">Thing Repository</h1>
+</div>
+<div class="ui text container raised segment">
+  <div class="ui middle aligned divided list">
+    <div class="item" ng-repeat="item in repository">
+      <label class="item" title="{{item.url}}" ng-click="submit($event)">{{item.name}}</label>
+    </div>
+  </div>
+</div>
