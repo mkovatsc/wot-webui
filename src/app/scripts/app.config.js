@@ -1,7 +1,7 @@
 /**
  * Application configuration.
  */
-function appConfig (ENVIRONNEMENT, $compileProvider, $locationProvider, $translateProvider) {
+function appConfig (ENVIRONNEMENT, $compileProvider, $locationProvider, $translateProvider, CoAPProvider) {
   'ngInject';
 
   // Reference: https://docs.angularjs.org/api/ng/provider/$locationProvider#html5Mode
@@ -19,7 +19,8 @@ function appConfig (ENVIRONNEMENT, $compileProvider, $locationProvider, $transla
     .useSanitizeValueStrategy('sanitize')
     .preferredLanguage(navigator.browserLanguage || navigator.language);
 
+  CoAPProvider.setProxy('http://localhost:8080');
 }
 
-appConfig.$inject = ['ENVIRONNEMENT', '$compileProvider', '$locationProvider', '$translateProvider'];
+appConfig.$inject = ['ENVIRONNEMENT', '$compileProvider', '$locationProvider', '$translateProvider', 'CoAPProvider'];
 module.exports = appConfig;

@@ -15,6 +15,7 @@ import ngBootstrap from 'angular-ui-bootstrap';
 import ngTranslate from 'angular-translate';
 import ngTranslateLoaderStaticFiles from 'angular-translate-loader-static-files';
 import uiRouter from 'angular-ui-router';
+import coap from '../../../other_components/angular-coap';
 import ionRangeslider from 'ion-rangeslider';
 import brace from 'brace';
 
@@ -70,7 +71,8 @@ export default angular.module('wotwebui', [
   ngBootstrap,
   ngTranslate,
   ngTranslateLoaderStaticFiles,
-  uiRouter
+  uiRouter,
+  coap
 ])
 .config(appConfig)
 .config(appRoute)

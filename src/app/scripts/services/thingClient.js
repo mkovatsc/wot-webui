@@ -6,7 +6,7 @@
  * @description
  * # thingClient
  */
-function thingClient ($http/* ,coap */) {
+function thingClient ($http, CoAP) {
   let restcall = function restcall (method, uri, payload) {
     let scheme = uri.substring(0, uri.indexOf(':'));
     if (scheme === 'http') {
@@ -17,9 +17,8 @@ function thingClient ($http/* ,coap */) {
       };
       return $http(req);
     } else if (scheme === 'coap') {
-      // Uncomment after getting angular-coap
-     /* return CoAP.doCoapReq(method, uri, JSON.stringify(payload))
-        .then($http.defaults.transformResponse); */
+      return CoAP.doCoapReq(method, uri, JSON.stringify(payload))
+        .then($http.defaults.transformResponse);
     } else {
       throw Error('unknown uri scheme');
     }
@@ -97,5 +96,5 @@ function thingClient ($http/* ,coap */) {
     } */
   };
 }
-thingClient.$inject = ['$http'/* ,'coap' */];
+thingClient.$inject = ['$http', 'CoAP'];
 module.exports = thingClient;

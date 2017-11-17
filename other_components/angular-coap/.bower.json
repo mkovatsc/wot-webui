@@ -1,0 +1,38 @@
+{
+  "name": "angular-coap",
+  "version": "0.0.2",
+  "homepage": "https://github.com/h0ru5/angular-coap",
+  "authors": [
+    "Johannes Hund (h0ru5) <johannes.hund@gmail.com>"
+  ],
+  "description": "CoAP polyfill: a service for angular applications",
+  "main": "dist/angular-coap.js",
+  "keywords": [
+    "Angular",
+    "coap",
+    "IETF",
+    "core",
+    "polyfill",
+    "iot"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "package.json",
+    "example"
+  ],
+  "_release": "0.0.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.0.2",
+    "commit": "6efe44a0aab6fa38f61ed0097b0a3335921d60ec"
+  },
+  "_source": "https://github.com/h0ru5/angular-coap.git",
+  "_target": "^0.0.2",
+  "_originalSource": "angular-coap",
+  "_direct": true
+}

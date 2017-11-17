@@ -23,12 +23,14 @@ div#errorDivMan{
 
 div#errorDivTech{
   margin-left: 5%;
-  width: 61.5%;
+  /* width: 61.5%;*/
+  width: 88%;
 }
 
 div#errorDivUser{
   margin-left: 5%;
-  width: 61.5%;
+  /* width: 61.5%;*/
+  width: 88%;
 }
 
 div.header > div.navbar.navbar-default{
