@@ -16,6 +16,7 @@ function ViewwidgetsCtrl ($scope, $http, widgetGenerator) {
   widgetGenerator.generateSlider('', 'slider_id', 60, 0, 100, true);
   widgetGenerator.generateRGraphMeter('', 'cvs2', 1, true, 'AC');
   widgetGenerator.updateRGraphMeter('cvs2', 'Cool');
+  widgetGenerator.generateRGraphHumidityMeter('', 'cvsHumidity', 56, true);
   /* let jqueryKnob = require('../../../../node_modules/jquery-knob/dist/jquery.knob.min.js');
   let canvasGauge = require('../../../../node_modules/canvas-gauges/gauge.min.js');
   $scope.value = 4;

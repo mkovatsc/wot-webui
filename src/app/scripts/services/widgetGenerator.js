@@ -244,28 +244,6 @@ function widgetGenerator (thingClient, $document) {
     }
   };
 
-  this.updateRGraph = function (div, value) {
-    gauge[div].value = value;
-    gauge[div].grow();
-    // RGraph.Redraw();
-  };
-  this.updateRGraphMeter = function (div, value) {
-    let name = 'chart.labels.specific';
-    for (let i = 0; i < meters[div].properties[name].length; i++) {
-      if (meters[div].properties[name][i][0] === value) {
-        meters[div].value = meters[div].properties[name][i][1];
-        meters[div].grow();
-        break;
-      }
-    }
-    // RGraph.Redraw();
-  };
-  this.updateModifiedSpinner = function (div, value) {
-    $document.getElementById(div).value = value;
-  };
-  this.updateModifiedCheckbox = function (div, value) {
-    $document.getElementById(div).checked = value;
-  };
   this.generateSlider = function (url, div, value, min, max, writable) {
     // min, max, width, height, value are integers
     // div is the class of the div where this knob would be rendered
@@ -282,6 +260,73 @@ function widgetGenerator (thingClient, $document) {
       }
     });
   };
+
+  this.generateRGraphHumidityMeter = function (url, div, value, writable) {
+    // div is the id of the canvas
+    // value, min and max are integers or floats
+    let property = { link: [ { href: url } ], 'value': value };
+    let newValue = '';
+    gauge[div] = new RGraph.Meter({
+      id     : div,
+      min    : 0,
+      max    : 100,
+      value  : value,
+      options: {
+        border: false,
+        tickmarksSmallNum: 0,
+        tickmarksBigNum: 0,
+        anglesStart: RGraph.HALFPI + (RGraph.HALFPI / 1.5),
+        anglesEnd: RGraph.TWOPI + RGraph.HALFPI - (RGraph.HALFPI / 1.5),
+        segmentRadiusStart: 80,
+        textSize: 12,
+        colorsRanges: [
+          [0, 40, 'Gradient(#0c0:#cfc:#0c0)'],
+          [40, 80, 'Gradient(yellow:#ffc:yellow)'],
+          [80, 100, 'Gradient(red:#fcc:red)']
+        ],
+        needleRadius: 65,
+        gutterBottom: 160
+      }
+    }).draw();
+
+    if (writable) {
+      gauge[div].canvas.onclick = function (e) {
+        newValue = gauge[div].getValue(e);
+
+        if (typeof newValue === 'number') {
+          gauge[div].value = newValue;
+          gauge[div].grow();
+          property.value = gauge[div].value;
+          thingClient.writeProperty('', property);
+        }
+      };
+    }
+  };
+
+  this.updateRGraph = function (div, value) {
+    gauge[div].value = value;
+    gauge[div].grow();
+    // RGraph.Redraw();
+  };
+  this.updateRGraphMeter = function (div, value) {
+    let name = 'chart.labels.specific';
+    for (let i = 0; i < meters[div].properties[name].length; i++) {
+      if (meters[div].properties[name][i][0] === value) {
+        meters[div].value = meters[div].properties[name][i][1];
+        meters[div].grow();
+        break;
+      }
+    }
+    // RGraph.Redraw();
+  };
+
+  this.updateModifiedSpinner = function (div, value) {
+    $document.getElementById(div).value = value;
+  };
+  this.updateModifiedCheckbox = function (div, value) {
+    $document.getElementById(div).checked = value;
+  };
+
   this.updateSlider = function (div, value) {
     sliders[div] = $('#' + div).data('ionRangeSlider');
     sliders[div].update({

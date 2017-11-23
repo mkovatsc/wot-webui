@@ -52,6 +52,8 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
           widgetGenerator.updateKnob($scope.properties[m].divClass, Math.ceil(Math.random() * 100));
         } else if ($scope.properties[m].name === 'canvas-thermometer') {
           widgetGenerator.updateCanvasThermometer($scope.properties[m].divClass, Math.floor(Math.random() * 30) + 20);
+        } else if ($scope.properties[m].name === 'humidityMeter') {
+          widgetGenerator.updateRGraph($scope.properties[m].divClass, Math.floor(Math.random() * 100) + 1);
         }
         /* $http({
           method: 'get',
@@ -122,6 +124,8 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
             canvas_html = '<div class="tile tile-xtra-large-x bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3><input type="text" class="' + classID + '"> </div></div>';
           } else if ($scope.properties[m].name === 'multiMode') {
             canvas_html = '<div class="tile tile-big-y tile-super-x bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <canvas id="' + classID + '" width="600" height="300">[No canvas support]</canvas> </div></div>';
+          } else if ($scope.properties[m].name === 'humidityMeter') {
+            canvas_html = '<div class="tile-big bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3><div style="width: 300px; height: 300px; background-color: white; border-radius: 250px; margin-left: 15px; text-align: center; font-family: Arial; box-shadow: 0 0 25px gray; border: 1px solid #ddd"> <canvas id="' + classID + '" width="300" height="300">[No canvas support]</canvas><b style="font-size: 20pt">Humidity (%)</b></div></div></div>';
           }
           element = angular.element(canvas_html);
           $compile(element)($scope);
@@ -153,6 +157,8 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
             widgetGenerator.generateSlider($scope.properties[m].url, classID, $scope.properties[m].value, min, max, $scope.properties[m].writable);
           } else if ($scope.properties[m].name === 'multiMode') {
             widgetGenerator.generateRGraphMeter($scope.properties[m].url, classID, $scope.properties[m].value, $scope.properties[m].writable, $scope.properties[m].propertyName);
+          }  else if ($scope.properties[m].name === 'humidityMeter') {
+            widgetGenerator.generateRGraphHumidityMeter($scope.properties[m].url, classID, $scope.properties[m].value, $scope.properties[m].writable);
           }
         }, function (error) {
           $('#errorDivUser').show();
