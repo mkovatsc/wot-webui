@@ -43,9 +43,15 @@
 		},
 		{
 			"widget_id": "7",
-			"types": ["AC", "carAC", "carRoof", "WashingMachine", "multiMode"],
+			"types": ["carAC", "carRoof", "WashingMachine", "AC", "multiMode"],
 			"writable": true,
 			"widget_name": "multiMode"
+		},
+		{
+			"widget_id": "8",
+			"types": ["humidity"],
+			"writable": true,
+			"widget_name": "humidityMeter"
 		}
 	]
 }
