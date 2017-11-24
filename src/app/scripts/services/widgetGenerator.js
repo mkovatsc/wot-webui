@@ -116,8 +116,8 @@ function widgetGenerator (thingClient, $document) {
     let newValue = '';
     gauge[div] = new RGraph.Thermometer({
       id     : div, // 'cvsThermometer'
-      min    : min,
-      max    : max,
+      min    : min - 100,
+      max    : max + 100,
       value  : value,
       options: {
         // adjustable: true
@@ -219,13 +219,26 @@ function widgetGenerator (thingClient, $document) {
     // value, min and max are integers or floats
     let property = { link: [ { href: url } ], 'value': value };
     let newValue = '';
+    let redStart = 0;
+    let greenEnd = 0;
+    if (value > 300) {
+      min -= 3;
+      max += 2;
+      redStart = max - 5;
+      greenEnd = max - 10;
+    } else {
+      redStart = Math.floor(0.9 * max);
+      greenEnd = Math.floor(0.7 * max);
+    }
     gauge[div] = new RGraph.Gauge({
       id     : div, // 'cvs'
       min    : min,
       max    : max,
       value  : value,
       options: {
-        radius: 100
+        radius     : 100,
+        redStart   : redStart,
+        greenEnd: greenEnd
         // adjustable: true
       }
     }).grow();

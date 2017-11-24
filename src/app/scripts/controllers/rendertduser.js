@@ -12,7 +12,7 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
   $('a:contains(User)').parent('li').addClass('active');
   $('#errorDivUser').hide();
   $scope.errorMessage = [];
-  let reloader;
+  let promise;
   // let parser = require('../../../../parser/node-wot/packages/node-wot-td-tools/dist/td-parser');
   let parser = require('../../../../parser/bundle-parser');
   // $log.log(typeof($stateParams.TD));
@@ -48,14 +48,14 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
     $scope.updateWidgets = function () {
       for (let m = 0; m < $scope.properties.length; m++) {
         // Use till you get a TD with updating values
-        if ($scope.properties[m].name === 'ui-knob') {
+        /* if ($scope.properties[m].name === 'ui-knob') {
           widgetGenerator.updateKnob($scope.properties[m].divClass, Math.ceil(Math.random() * 100));
         } else if ($scope.properties[m].name === 'canvas-thermometer') {
           widgetGenerator.updateCanvasThermometer($scope.properties[m].divClass, Math.floor(Math.random() * 30) + 20);
         } else if ($scope.properties[m].name === 'humidityMeter') {
           widgetGenerator.updateRGraph($scope.properties[m].divClass, Math.floor(Math.random() * 100) + 1);
-        }
-        /* $http({
+        } */
+        $http({
           method: 'get',
           url: $scope.properties[m].url
         }).then(function (response2) {
@@ -76,12 +76,14 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
             widgetGenerator.updateSlider($scope.properties[m].divClass, $scope.properties[m].value);
           }  else if ($scope.properties[m].name === 'multiMode') {
             widgetGenerator.updateRGraph($scope.properties[m].divClass, $scope.properties[m].value);
+          } else if ($scope.properties[m].name === 'humidityMeter') {
+            widgetGenerator.updateRGraph($scope.properties[m].divClass, $scope.properties[m].value);
           }
 
         }, function (error) {
           $('#errorDivUser').show();
           $log.log(error, 'cannot get data.');
-        }); */
+        });
       }
     };
     $scope.renderWidgets = function () {
@@ -174,7 +176,12 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
 
       }
 
-      reloader = $interval($scope.updateWidgets, 1000);
+      promise = $interval($scope.updateWidgets, 1000);
+      promise.then(function () {
+      });
+      promise.catch(function (err) {
+        $log.log(err);
+      });
     };
     $scope.properties = JSON.parse($window.sessionStorage.getItem('ListOfWidgets'));
     if ($scope.properties === null) {
@@ -226,14 +233,14 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
     }
   }
   $('div[id^="group"]').click(function () {
-    $interval.cancel(reloader);
+    $interval.cancel(promise);
   });
 
-  /* $scope.$on('$destroy', function () {
-    if (angular.isDefined(reloader)) {
-      $interval.cancel(reloader);
+  $scope.$on('$destroy', function () {
+    if (angular.isDefined(promise)) {
+      $interval.cancel(promise);
     }
-  }); */
+  });
 }
 
 RendertdUserCtrl.$inject = ['$scope', '$http', '$state', '$stateParams', '$window', 'widgetGenerator', '$compile', '$interval', '$log'];
