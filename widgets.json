@@ -13,7 +13,7 @@
 		},
 		{
 			"widget_id": "2",
-			"types": ["light"],
+			"types": ["light", "volume", "brightness", "contrast"],
 			"writable": true,
 			"widget_name": "ui-knob"
 		},
