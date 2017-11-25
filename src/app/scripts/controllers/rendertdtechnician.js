@@ -118,7 +118,7 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
             for (let k = 0; k < $scope.parsedTD.interaction[i].semanticTypes.length; k++) {
               for (let l = 0; l < $scope.content.widgets[j].types.length; l++) {
                 $scope.propertyValues = {name: '', value: '', url: '', propertyName: '', writable: ''};
-                if ($scope.parsedTD.interaction[i].semanticTypes[k].toLowerCase() === $scope.content.widgets[j].types[l]) {
+                if ($scope.parsedTD.interaction[i].semanticTypes[k].toLowerCase() === $scope.content.widgets[j].types[l].toLowerCase()) {
                   $scope.propertyValues.name = $scope.content.widgets[j].widget_name;
                   $scope.propertyValues.url = $scope.parsedTD.interaction[i].link[0].href;
                   $scope.propertyValues.propertyName = $scope.parsedTD.interaction[i].name;
@@ -172,6 +172,7 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
           }
         }
       }
+	  $scope.autoReloaded.push(property);
       thingClient.readProperty($scope.parsedTD, property).catch($scope.showRestError);
     });
   };

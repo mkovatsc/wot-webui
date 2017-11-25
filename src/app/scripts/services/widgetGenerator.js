@@ -261,9 +261,9 @@ function widgetGenerator (thingClient, $document) {
     // min, max, width, height, value are integers
     // div is the class of the div where this knob would be rendered
     let property = { link: [ { href: url } ], 'value': value };
-    $('#' + div).ionRangeSlider({
-      min     : min,
-      max     : max,
+    sliders[div] = $('.' + div).ionRangeSlider({
+      min     : 0,
+      max     : 100,
       from    : value,
       disable : !writable,
       onChange: function (data) {
@@ -334,15 +334,15 @@ function widgetGenerator (thingClient, $document) {
   };
 
   this.updateModifiedSpinner = function (div, value) {
-    $document.getElementById(div).value = value;
+    document.getElementById(div).value = value;
   };
   this.updateModifiedCheckbox = function (div, value) {
-    $document.getElementById(div).checked = value;
+    document.getElementById(div).checked = value;
   };
 
   this.updateSlider = function (div, value) {
-    sliders[div] = $('#' + div).data('ionRangeSlider');
-    sliders[div].update({
+    let instance = sliders[div].data('ionRangeSlider');
+    instance.update({
       from: value
     });
   };

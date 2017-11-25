@@ -13,7 +13,7 @@
   <div class="ui list">
     <div style="width: 85%" class="item" ng-repeat="property in properties">
       <div ng-show="property.outputData.type !== 'object' && property.outputData.type !== 'array'">
-        {{property.name}}&ensp;&emsp;&ensp;&emsp;
+        {{property.name}}
         <button class="ui right floated red button" ng-click="writeProperty(property)" ng-show="property.writable">Write</button>
         <button class="ui right floated blue button" ng-click="toggleAuto(property)">Poll</button>
         <button class="ui right floated green button" ng-click="readProperty(property)" ng-disabled="property.autoUpdate">Read</button>
