@@ -52,6 +52,12 @@
 			"types": ["humidity"],
 			"writable": true,
 			"widget_name": "humidityMeter"
+		},
+		{
+			"widget_id": "9",
+			"types": ["fuel"],
+			"writable": false,
+			"widget_name": "fuelGauge"
 		}
 	]
 }
