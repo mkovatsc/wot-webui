@@ -13,10 +13,11 @@ function ViewwidgetsCtrl ($scope, $http, widgetGenerator) {
   widgetGenerator.generateCanvasThermometer('', 'gauge-id', 36.6, -30, 40, true);
   widgetGenerator.generateRGraphThermometer('', 'cvsThermometer', 220, 210, 230, true);
   widgetGenerator.generateRGraphGauge('', 'cvs', 4, 0, 10, true);
-  widgetGenerator.generateSlider('', 'slider_id', 60, 0, 100, true);
+  widgetGenerator.generateSlider('', 'slider_class', 60, 0, 100, true);
   widgetGenerator.generateRGraphMeter('', 'cvs2', 1, true, 'AC');
   widgetGenerator.updateRGraphMeter('cvs2', 'Cool');
   widgetGenerator.generateRGraphHumidityMeter('', 'cvsHumidity', 56, true);
+  widgetGenerator.generateFuelGauge('cvsfuel', '55');
   /* let jqueryKnob = require('../../../../node_modules/jquery-knob/dist/jquery.knob.min.js');
   let canvasGauge = require('../../../../node_modules/canvas-gauges/gauge.min.js');
   $scope.value = 4;

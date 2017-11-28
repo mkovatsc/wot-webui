@@ -51,7 +51,7 @@ function widgetGenerator (thingClient, $document) {
     });
   };
   this.updateKnob = function (div, value) {
-    $('input.' + div).val(value);
+    $('input.' + div).val(value).trigger('change');
     // $('input.' + div).trigger('change');
   };
   // let temperatureGauge = {};
@@ -257,6 +257,20 @@ function widgetGenerator (thingClient, $document) {
     }
   };
 
+  this.generateFuelGauge = function (div, value) {
+    // div is the id of the canvas
+    // value, min and max are integers or floats
+    gauge[div] = new RGraph.Fuel({
+      id     : div,
+      min    : 0,
+      max    : 100,
+      value  : value,
+      options: {
+        textAccessible: true
+      }
+    }).grow();
+  };
+
   this.generateSlider = function (url, div, value, min, max, writable) {
     // min, max, width, height, value are integers
     // div is the class of the div where this knob would be rendered
@@ -322,12 +336,17 @@ function widgetGenerator (thingClient, $document) {
     // RGraph.Redraw();
   };
   this.updateRGraphMeter = function (div, value) {
-    let name = 'chart.labels.specific';
-    for (let i = 0; i < meters[div].properties[name].length; i++) {
-      if (meters[div].properties[name][i][0] === value) {
-        meters[div].value = meters[div].properties[name][i][1];
-        meters[div].grow();
-        break;
+    if (typeof value === 'number') {
+      meters[div].value = value;
+      meters[div].grow();
+    } else {
+      let name = 'chart.labels.specific';
+      for (let i = 0; i < meters[div].properties[name].length; i++) {
+        if (meters[div].properties[name][i][0] === value) {
+          meters[div].value = meters[div].properties[name][i][1];
+          meters[div].grow();
+          break;
+        }
       }
     }
     // RGraph.Redraw();

@@ -158,21 +158,33 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
 
   $scope.updateState = function updateState () {
     $scope.properties.forEach(function (property) {
-      property.autoUpdate = true;
+      property.autoUpdate = !property.autoUpdate;
       let inputDiv = document.querySelectorAll('div#' + property.name);
       for (let i = 0; i < inputDiv.length; i++) {
         if (inputDiv[i].className.indexOf('ng-hide') < 0) {
-          if (inputDiv[i].children[0].className.indexOf('editted') < 0 && inputDiv[i].children[0].className.indexOf('read') < 0) {
-            if (inputDiv[i].children[0].className.indexOf('polling') < 0) {
-              inputDiv[i].children[0].className = inputDiv[i].children[0].className + ' polling';
+          if (property.autoUpdate) {
+            $scope.autoReloaded.push(property);
+            if (inputDiv[i].children[0].className.indexOf('editted') < 0 && inputDiv[i].children[0].className.indexOf('read') < 0) {
+              if (inputDiv[i].children[0].className.indexOf('polling') < 0) {
+                inputDiv[i].children[0].className = inputDiv[i].children[0].className + ' polling';
+              }
+            } else {
+              inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/editted/g, 'polling');
+              inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/read/g, 'polling');
             }
           } else {
-            inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/editted/g, 'polling');
-            inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/read/g, 'polling');
+            $scope.autoReloaded.splice($scope.autoReloaded.indexOf(property), 1);
+            if (inputDiv[i].children[0].className.indexOf('editted') < 0 && inputDiv[i].children[0].className.indexOf('polling') < 0) {
+              if (inputDiv[i].children[0].className.indexOf('read') < 0) {
+                inputDiv[i].children[0].className = inputDiv[i].children[0].className + ' read';
+              }
+            } else {
+              inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/editted/g, 'read');
+              inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/polling/g, 'read');
+            }
           }
         }
       }
-	  $scope.autoReloaded.push(property);
       thingClient.readProperty($scope.parsedTD, property).catch($scope.showRestError);
     });
   };
@@ -192,7 +204,7 @@ function RendertdtechnicianCtrl ($scope, $http, $state, $stateParams, $window, t
             inputDiv[i].children[0].className = inputDiv[i].children[0].className.replace(/read/g, 'polling');
           }
         } else {
-          if (inputDiv[i].children[0].className.indexOf('editted'  && inputDiv[i].children[0].className.indexOf('polling') < 0) < 0) {
+          if (inputDiv[i].children[0].className.indexOf('editted') < 0 && inputDiv[i].children[0].className.indexOf('polling') < 0) {
             if (inputDiv[i].children[0].className.indexOf('read') < 0) {
               inputDiv[i].children[0].className = inputDiv[i].children[0].className + ' read';
             }

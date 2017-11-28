@@ -23,7 +23,7 @@ function BaseCtrl ($scope, $window, $state) {
       let item = index;
       let add = true;
 
-      if (item !== 'ListOfWidgets' && item !== 'interval') {
+      if ($window.sessionStorage.hasOwnProperty(item) && item !== 'ListOfWidgets' && item !== 'interval') {
         for (let i = 0; i < $scope.things.length; i++) {
           if ($scope.things[i] === item) {
           // clickId[i].val = item.val;

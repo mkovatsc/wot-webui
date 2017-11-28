@@ -75,8 +75,10 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
           }  else if ($scope.properties[m].name === 'rangeSlider') {
             widgetGenerator.updateSlider($scope.properties[m].divClass, $scope.properties[m].value);
           }  else if ($scope.properties[m].name === 'multiMode') {
-            widgetGenerator.updateRGraph($scope.properties[m].divClass, $scope.properties[m].value);
+            widgetGenerator.updateRGraphMeter($scope.properties[m].divClass, $scope.properties[m].value);
           } else if ($scope.properties[m].name === 'humidityMeter') {
+            widgetGenerator.updateRGraph($scope.properties[m].divClass, $scope.properties[m].value);
+          } else if ($scope.properties[m].name === 'fuelGauge') {
             widgetGenerator.updateRGraph($scope.properties[m].divClass, $scope.properties[m].value);
           }
 
@@ -113,13 +115,13 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
           if ($scope.properties[m].name === 'ui-knob') {
             canvas_html = '<div class="tile-large bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3><input type="text" class="' + classID + '"> </div></div>';
           } else if ($scope.properties[m].name === 'rgraph-thermometer') {
-            canvas_html = '<div class="tile-large bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <canvas id="' + classID + '"width="100" height="400"> [No canvas support] </canvas> </div></div>';
+            canvas_html = '<div class="tile-wide tile-big-y bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <canvas id="' + classID + '"width="100" height="400"> [No canvas support] </canvas> </div></div>';
           } else if ($scope.properties[m].name === 'canvas-thermometer') {
             canvas_html = '<div class="tile-large tile-super-y bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <canvas id="' + classID + '"></canvas> </div></div>';
           } else if ($scope.properties[m].name === 'gauge') {
             canvas_html = '<div class="tile-large bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <canvas id="' + classID + '" width="250" height="250">[No canvas support]</canvas> </div></div>';
           } else if ($scope.properties[m].name === 'modifiedCheckbox') {
-            canvas_html = '<div class="tile bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <div class="ui fitted toggle checkbox"><input type="checkbox" checked ng-disabled="!' + $scope.properties[m].writable + '" id="' + classID + '"></div></div>';
+            canvas_html = '<div class="tile bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <div class="ui fitted toggle checkbox"><input type="checkbox" checked="' + $scope.properties[m].value + '" id="' + classID + '"><label></label></div></div>';
           } else if ($scope.properties[m].name === 'modifiedSpinner') {
             canvas_html = '<div class="tile bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <input id="' + classID + '" min="' + 0 + '" max="' + 100 + '" ng-disabled="!' + $scope.properties[m].writable + '" class="modifiedSpinner" type="number" value="' + $scope.properties[m].value + '"></div></div>';
           } else if ($scope.properties[m].name === 'rangeSlider') {
@@ -128,6 +130,8 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
             canvas_html = '<div class="tile tile-big-y tile-super-x bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <canvas id="' + classID + '" width="600" height="300">[No canvas support]</canvas> </div></div>';
           } else if ($scope.properties[m].name === 'humidityMeter') {
             canvas_html = '<div class="tile-big bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3><div style="width: 300px; height: 300px; background-color: white; border-radius: 250px; margin-left: 15px; text-align: center; font-family: Arial; box-shadow: 0 0 25px gray; border: 1px solid #ddd"> <canvas id="' + classID + '" width="300" height="300">[No canvas support]</canvas><b style="font-size: 20pt">Humidity (%)</b></div></div></div>';
+          } else if ($scope.properties[m].name === 'fuelGauge') {
+            canvas_html = '<div class="tile-large bg-white"><div class="tile-content"><h3>' + $scope.properties[m].propertyName + '</h3> <canvas id="' + classID + '" width="250" height="250">[No canvas support]</canvas> </div></div>';
           }
           element = angular.element(canvas_html);
           $compile(element)($scope);
@@ -148,10 +152,13 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
             $('#' + groupId).append(element);
           } */
           if ($scope.properties[m].name === 'ui-knob') {
-			if ($scope.properties[m].propertyName === 'Volume'){
-				min = 0;
-				max = 100;
-			}	
+            if ($scope.properties[m].propertyName.toLowerCase() === 'volume') {
+              min = 0;
+              max = 100;
+            } else if ($scope.properties[m].propertyName.toLowerCase() === 'light' || $scope.properties[m].propertyName.toLowerCase() === 'brightness') {
+              min = 0;
+              max = 10;
+            }
             widgetGenerator.generateKnob($scope.properties[m].url, classID, $scope.properties[m].value, min, max, $scope.properties[m].writable);
           } else if ($scope.properties[m].name === 'rgraph-thermometer') {
             widgetGenerator.generateRGraphThermometer($scope.properties[m].url, classID, $scope.properties[m].value, $scope.properties[m].value - 10, $scope.properties[m].value + 10, $scope.properties[m].writable);
@@ -163,8 +170,10 @@ function RendertdUserCtrl($scope, $http, $state, $stateParams, $window, widgetGe
             widgetGenerator.generateSlider($scope.properties[m].url, classID, $scope.properties[m].value, min, max, $scope.properties[m].writable);
           } else if ($scope.properties[m].name === 'multiMode') {
             widgetGenerator.generateRGraphMeter($scope.properties[m].url, classID, $scope.properties[m].value, $scope.properties[m].writable, $scope.properties[m].propertyName);
-          }  else if ($scope.properties[m].name === 'humidityMeter') {
+          } else if ($scope.properties[m].name === 'humidityMeter') {
             widgetGenerator.generateRGraphHumidityMeter($scope.properties[m].url, classID, $scope.properties[m].value, $scope.properties[m].writable);
+          } else if ($scope.properties[m].name === 'fuelGauge') {
+            widgetGenerator.generateFuelGauge(classID, $scope.properties[m].value);
           }
         }, function (error) {
           $('#errorDivUser').show();
