@@ -19,7 +19,7 @@
 		},
 		{
 			"widget_id": "3",
-			"types": ["pressure"],
+			"types": ["tyrePressure", "pressure"],
 			"writable": true,
 			"widget_name": "gauge"
 		},
